@@ -1,0 +1,174 @@
+.signup-container {
+  max-width: 450px;
+  margin: 30px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  padding-bottom: .5rem;
+}
+
+.signup-header {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.signup-links {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.signup-links a {
+  text-decoration: none;
+  color: #666;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+.signup-links a.active {
+  color: #2a52be;
+  font-weight: bold;
+  border-bottom: 2px solid #2a52be;
+}
+
+.brand-title h2 {
+  color: #2a52be;
+  margin: 0;
+  font-size: 24px;
+}
+
+.brand-title h1 {
+  margin: 10px 0 0;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+/* .input-group label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+} */
+
+.input-field {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px 10px;
+}
+
+.input-icon {
+  color: #777;
+  margin-right: 10px;
+}
+
+.input-field input,
+.input-field select {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+}
+
+
+
+.robot-check {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-group input {
+  margin-right: 8px;
+}
+
+.robot-text {
+  text-align: right;
+  font-size: 12px;
+  color: #888;
+}
+
+.terms-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+
+
+.signup-button {
+  background-color: #2a52be;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.signup-button:hover {
+  background-color: #1a42a8;
+}
+
+.welcome-message {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+/* Add these styles to your existing Singup.css */
+
+.password-field {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #777;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.password-toggle:focus {
+  outline: none;
+}
+
+/* Ensure the password input has enough padding for the toggle button */
+.input-field input[type="password"],
+.input-field input[type="text"] {
+  padding-right: 35px;
+  width: 100%;
+}
+
+
+
+
+.signup-container .input-group{
+  margin-bottom: 1rem !important;
+}

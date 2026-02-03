@@ -1,0 +1,15 @@
+.table-header{
+    font-weight: 500;
+    background-color:#f0f0f0 ;
+    text-align: center !important;
+    font-size: .8rem;
+}
+.table-body{
+    font-weight: 400;
+    font-size: .75rem;
+    text-align: center !important;
+    cursor: pointer;
+}
+.table-body:hover{
+    color: #1976d2;
+}

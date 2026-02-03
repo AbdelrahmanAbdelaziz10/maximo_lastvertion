@@ -1,0 +1,350 @@
+.Register {
+  background-image: url('../assets/Register2.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative; /* مهم */
+  min-height: 100vh;
+}
+
+.Register::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* لون غامق */
+  z-index: 1;
+}
+
+/* علشان المحتوى يفضل فوق الـ overlay */
+.Register > * {
+  position: relative;
+  z-index: 2;
+}
+.login-container{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.row-login{
+  width: 100%;
+}
+.login-content {
+  margin: 50px 2rem;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4rem 12rem rgba(0, 0, 0, 0.4);
+  font-family: 'Arial', sans-serif;
+  border: 3px solid var(--primary-color);
+  width: 100%;
+}
+
+.login-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.login-links {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.login-links a {
+  text-decoration: none;
+  color: #666;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+.login-links a.active {
+  /* color: #2a52be; */
+  color: var(--primary-color);
+  font-weight: bold;
+  /* border-bottom: 2px solid #2a52be; */
+  border-bottom: 2px solid var(--primary-color);
+
+}
+
+.brand-title h2 {
+  /* color: #2a52be; */
+  color: var(--primary-color);
+  margin: 0;
+  font-size: 24px;
+}
+
+.brand-title h1 {
+  margin: 10px 0 0;
+  /* color: #063776; */
+  color: var(--primary-color);
+
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  /* display: block;
+  margin-bottom: 8px;
+  font-size: 14px; */
+  color: var(--primary-color);
+}
+
+.input-field {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  
+}
+
+.input-icon {
+  color: #777;
+  margin-right: 10px;
+}
+
+.input-field input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.robot-check {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-group input {
+  margin-right: 8px;
+}
+
+.robot-text {
+  text-align: right;
+  font-size: 12px;
+  color: #888;
+}
+
+.terms-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+
+.terms-check label {
+  font-size: 14px;
+  /* color: #063776; */
+    color: var(--primary-color);
+
+}
+
+.login-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 4px;
+  /* Subtle rounded corners */
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  /* Full width if needed */
+  text-align: center;
+  display: block;
+  /* Makes it a block element */
+}
+
+.login-button:hover {
+   background-color: var(--primary-color);
+   opacity: .8;
+   transition: all .5s;
+  /* background-color: #1a42a8; */
+  /* Slightly darker on hover */
+}
+
+/* If you want the button to match exact dimensions from your image */
+.login-button.exact {
+  width: 120px;
+  /* Adjust to match your design */
+  padding: 12px 0;
+  /* Vertical and horizontal padding */
+  border-radius: 3px;
+  /* Very subtle rounding */
+}
+
+.login-button:focus {
+  outline: 2px solid #2a52be;
+  outline-offset: 2px;
+}
+
+.welcome-message {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+/* Previous styles remain the same, add these new styles */
+
+.password-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.forgot-password {
+  /* color: #063776; */
+  color: var(--primary-color);
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  transition: all .5s;
+  transform: scale(1.1);
+}
+
+.input-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.toggle-password {
+  background: none;
+  border: none;
+  color: #777;
+  cursor: pointer;
+  padding: 0 5px;
+  position: absolute;
+  right: 10px;
+}
+
+.toggle-password:focus {
+  outline: none;
+}
+
+/* Ensure the password input has enough padding for the toggle button */
+.input-field input[type="password"],
+.input-field input[type="text"] {
+  padding-right: 30px;
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+/* Add to existing styles */
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.password-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.robot-text {
+  text-align: right;
+  font-size: 12px;
+  color: #888;
+}
+
+
+
+.field-error {
+  color: #ff3860;
+  font-size: .9rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.error-icon {
+  margin-right: 5px;
+  font-size: 1.2rem;
+}
+
+.error-message {
+  /* background-color: #ff3860; */
+  color: red;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  height: auto;
+}
+
+
+/* =========================
+   📱 Mobile (phones)
+   ========================= */
+@media (max-width: 576px) {
+
+  .Register {
+    min-height: 100vh;
+    padding: 0rem;
+  }
+
+  .login-content {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 20px;
+    border-radius: 0;
+  }
+
+  .brand-title h1 {
+    font-size: 1.5rem;
+  }
+
+  .brand-title h2 {
+    font-size: 1.2rem;
+  }
+
+  .login-links a {
+    font-size: 13px;
+  }
+
+  .login-button {
+    font-size: 15px;
+    padding: 0.7rem;
+  }
+
+  .welcome-message {
+    font-size: 13px;
+  }
+}
+
+

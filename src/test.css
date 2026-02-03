@@ -1,0 +1,13 @@
+.main-box{
+    display: flex;
+    justify-content: space-between;
+}
+.nav-box{
+    width: 15%;
+}
+.body-box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

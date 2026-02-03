@@ -1,0 +1,152 @@
+a {
+  text-decoration: none;
+}
+
+img {
+  width: 100%;
+}
+
+:root {
+  /* --primary-color: #1565c0; */
+  /* --primary-color: #6a7a6a; */
+  /* --primary-color: #0b455b; */
+  --primary-color: #0c5a79;
+  --primary-hover: #364b36;
+  --srTotal-header: #157091;
+  --srOverDue-header: #0e89b2;
+  --srDueToday-header: #e9c46a;
+  --srExtend-navBar: #1c7ea1;
+  --srExtend-navBar2: #0c7a8b;
+
+
+}
+
+.custom-dropdown {
+  position: relative;
+  z-index: 99999;
+  /* Important */
+}
+
+.custom-dropdown-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 1rem;
+  width: 200px;
+  z-index: 999999;
+  /* Super high so nothing hides it */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.specs-fancy-wrapper,
+.specs-fancy-table-container {
+  overflow: visible !important;
+  z-index: auto !important;
+  cursor: pointer;
+}
+
+.external-nave {
+  color: #fff !important;
+}
+
+.table-column {
+  padding: .1rem .5rem !important;
+}
+
+.css-q4q9mu-MuiTableCell-root {
+  padding: .6rem .4rem !important;
+}
+
+.css-qw8au0-MuiTableCell-root {
+  padding: .9rem .6rem !important;
+}
+
+.css-1fypmww-MuiTablePagination-root {
+  overflow: hidden;
+}
+
+/* input-general.css أو أي ملف CSS عندك */
+.input-general {
+  font-size: 0.875rem;
+  padding-left: 0.8rem;
+  border: 0px;
+  color: var(--mui-text-primary, #1c1c1c);
+  border-bottom: 2px dotted #999;
+  transition: all 0.2s ease, color 0.2s ease;
+}
+.input-general:hover {
+  border-bottom-color: var(--srExtend-navBar2);
+}
+/* مهم جدًا مع MUI Input */
+.input-general input {
+  padding: 0;
+  white-space: pre-line;
+  transition: color 0.2s ease;
+}
+
+/* focus effect */
+.input-general:focus-within {
+  border-bottom-color: var(--srExtend-navBar2);
+}
+/* label.css أو أي ملف CSS عام */
+.input-text {
+  font-size: 0.85rem !important;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6); /* نفس text.secondary */
+  text-align: left;
+  white-space: nowrap;
+}
+.text-width{
+min-width: 120px;
+  max-width: 160px;
+}
+.textarea-general {
+  width: 100%;
+  font-size: 0.875rem;
+  padding: 0 0 0.2rem 0.8rem; /* نفس إحساس Input */
+  color: var(--mui-text-primary, #1c1c1c);
+
+  background-color: transparent;
+  border: 0;
+  border-bottom: 2px dotted #999;
+
+  font-family: Roboto, Arial, sans-serif;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+
+  transition: all 0.2s ease, color 0.2s ease;
+}
+
+/* hover زي Input */
+.textarea-general:hover {
+  border-bottom-color: var(--srExtend-navBar2);
+}
+
+/* focus زي Input */
+.textarea-general:focus {
+  border-bottom: 2px dotted;
+  border-bottom-color: var(--srExtend-navBar2);
+}
+
+/* مهم علشان النص الطويل */
+.textarea-general {
+  white-space: pre-line;
+}
+.title_pag_filter{
+  padding: .2rem .4rem !important;
+}
+.Table-head{
+  padding: .1rem .2rem !important;
+}
+.shadow-sm{
+  margin-bottom: .5rem;
+  padding-bottom: 0 !important;
+  box-shadow: 10px 10px #000000b6;
+}
+.color-text{
+  color: #fff !important;
+}

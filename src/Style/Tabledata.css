@@ -1,0 +1,59 @@
+/* Default badge style */
+.Table-com {
+  background: linear-gradient(145deg, #f9f9f9, #fff);
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+  overflow: hidden;
+}
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  padding: .3rem;
+  border-radius: 5rem;
+  font-weight: 600;
+}
+.status-badge.status-danger {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-badge.status-normal {
+  background-color: #e3f2fd;
+  color: var(--srOverDue-header);
+}
+
+.css-11cfq65-MuiTablePagination-displayedRows {
+  margin-bottom: 0;
+}
+
+.table-header {
+  font-weight: 600 !important;
+  /* padding: .5rem !important; */
+  letter-spacing: 0 !important;
+
+  white-space: nowrap;
+  /* يمنع تقسيم الجملة */
+  overflow: hidden;
+  /* يخفي الزيادة */
+  text-overflow: ellipsis;
+  /* ... لو النص طويل */
+  padding: 1rem .5rem !important;
+}
+
+.MuiTablePaginationActions-root {
+  margin-left: 0 !important;
+}
+
+/* .FilterInput{
+  font-size: .5rem;
+  border: 0;
+  border-bottom: 1px solid;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.FilterInput::placeholder{
+  font-size: .2rem !important;
+} */

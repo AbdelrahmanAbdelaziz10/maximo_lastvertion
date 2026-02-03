@@ -1,0 +1,80 @@
+/* Shared base style for both buttons */
+.custom-btn-primary,
+.custom-btn-outline {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Add smooth scaling on hover */
+.custom-btn-primary:hover,
+.custom-btn-outline:hover {
+  transform: scale(1.05);
+}
+
+/* Outline button (Select Ticket) */
+.custom-btn-outline {
+  color: var(--srExtend-navBar) !important;
+  border-width: 2px !important;
+  background: transparent;
+  border: 2px solid !important;
+    text-transform:capitalize !important;
+  padding: 8px 18px !important;
+  border-color: var(--srExtend-navBar);
+  font-weight: 600 !important;
+}
+
+.custom-btn-outline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 123, 255, 0.1);
+  transform: skewX(-25deg);
+  transition: left 0.4s ease;
+}
+
+.custom-btn-outline:hover::before {
+  left: 100%;
+}
+
+.custom-btn-outline:hover {
+  background: rgba(0, 123, 255, 0.05);
+  box-shadow: 0 0 12px rgba(0, 123, 255, 0.3);
+    border-color: var(--srExtend-navBar);
+
+}
+
+/* Primary button (New Row) */
+.custom-btn-primary {
+  background: linear-gradient(135deg, #007bff);
+  border: none;
+  color: #fff !important;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+}
+
+.custom-btn-primary:hover {
+  background: linear-gradient(135deg, #007bff);
+  box-shadow: 0 0 18px rgba(8, 64, 148, 0.425);
+  transform: scale(1.07);
+}
+
+/* Add a soft light reflection on hover */
+.custom-btn-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.25);
+  transform: skewX(-25deg);
+  transition: left 0.5s ease;
+}
+
+.custom-btn-primary:hover::after {
+  left: 120%;
+}

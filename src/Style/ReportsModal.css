@@ -1,0 +1,224 @@
+/* Updated ReportsModal.css with filter arrow design */
+
+.reports-modal .modal-content {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  cursor: default;
+}
+
+.modal-header-custom {
+  background-color: var(--srExtend-navBar);
+  color: white;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  padding: 1rem 1.5rem;
+  max-height: 30vh;
+}
+
+.modal-header-custom .modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modal-header-custom .btn-close {
+  color: white;
+  opacity: 0.8;
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.modal-header-custom .btn-close:hover {
+  opacity: 1;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-footer-custom {
+  border-top: 1px solid #e9ecef;
+  padding: 1rem 1.5rem;
+  justify-content: flex-end;
+}
+
+.modal-footer-custom .btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.modal-footer-custom .btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.modal-footer-custom .btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Filter Section with Arrow */
+.filter-section {
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.filter-header {
+  background-color: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-arrow {
+  color: var(--srExtend-navBar);
+  font-size: 0.875rem;
+  transition: transform 0.2s ease;
+}
+
+.filter-title {
+  margin: 0;
+  color: var(--srExtend-navBar);
+  font-size: 0.95rem;
+}
+
+.filter-content {
+  padding: .5rem;
+}
+
+.filter-items {
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+/* Pagination Arrows */
+.pagination-arrows {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.arrow-btn {
+  background: none;
+  border: 0px solid #ced4da;
+  /* width: 28px;
+  height: 28px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: #6c757d;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* .arrow-btn:hover:not(:disabled) {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+} */
+
+.arrow-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 0.875rem;
+  color: #6c757d;
+  min-width: 50%;
+  text-align: center;
+}
+
+/* Download Checkbox */
+.download-checkbox {
+  margin: 0;
+}
+
+.download-checkbox .form-check-input {
+  margin-top: 0;
+}
+
+.download-checkbox .form-check-label {
+  font-size: 0.875rem;
+  color: #495057;
+}
+
+/* Report Options */
+.report-options {
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  height: auto;
+  overflow-y: auto;
+}
+
+.report-option {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e9ecef;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.9rem;
+}
+
+.report-option:last-child {
+  border-bottom: none;
+}
+
+.report-option:hover {
+  background-color: #f8f9fa;
+}
+
+.report-option.selected {
+  background-color: #e3f2fd;
+  font-weight: 500;
+}
+
+.form-check-input:checked {
+  background-color: #1565c0;
+  border-color: #1565c0;
+}
+
+/* This class will be applied to body when modal is open */
+.body-wait-cursor {
+  cursor: wait !important;
+}
+
+.css-i3pbo {
+  margin-bottom: .5rem !important;
+}
+
+.arrow {
+  color: var(--srExtend-navBar);
+}
+
+.model-content-form {
+  max-height: 60vh;
+  overflow: overlay;
+}
+.cancel-report{
+  padding: .3rem .5rem !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+  .modal-header-custom,
+  .modal-body,
+  .modal-footer-custom {
+    padding: 1rem;
+  }
+
+  .filter-items {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .pagination-arrows {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

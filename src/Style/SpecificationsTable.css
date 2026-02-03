@@ -1,0 +1,291 @@
+/* FANTASTIC DESIGN ✨ */
+.specs-fancy-wrapper {
+  background: linear-gradient(180deg, #ffffff, #f9fafc);
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  margin: 16px auto;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+/* HEADER BAR */
+.specs-fancy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--srExtend-navBar);
+  border-bottom: 1px solid #d0d7e2;
+  padding: 12px 20px;
+}
+
+.specs-fancy-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.3px;
+}
+
+.specs-fancy-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* FILTER BUTTON */
+.filter-fancy-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: var(--srExtend-navBar);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-fancy-btn:hover {
+  background: #e6efff;
+  border-color: #9ec5ff;
+}
+
+.filter-fancy-btn.active {
+  background: #dbe8ff;
+  border-color: #7cb3ff;
+}
+
+/* ICON BUTTONS */
+.icon-fancy-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #475569;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.icon-fancy-btn:hover {
+  color: #1e40af;
+  transform: scale(1.1);
+}
+
+.rows-fancy-info {
+  font-size: 13px;
+  color: #fff;
+}
+
+/* TABLE STYLING */
+.specs-fancy-table-container {
+  overflow-x: auto;
+}
+
+.specs-fancy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.specs-fancy-table th {
+  background: #f3f6fa;
+  text-align: left;
+  padding: 10px 14px;
+  font-weight: 600;
+  color: #334155;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.specs-fancy-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #edf2f7;
+  color: #475569;
+  transition: background 0.2s;
+}
+
+.specs-fancy-table tr:hover td {
+  background: #f9fbff;
+}
+
+/* FILTER INPUTS */
+.filter-fancy-row td {
+  background: #fafcff;
+  border-bottom: 1px solid #e5e9f0;
+}
+
+.filter-fancy-row input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #334155;
+  transition: 0.2s;
+}
+
+.filter-fancy-row input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+  outline: none;
+}
+
+/* EMPTY MESSAGE */
+.fancy-empty-msg {
+  text-align: center;
+  padding: 50px 0;
+  color: #64748b;
+  font-style: italic;
+}
+
+.no-fancy-rows .bee-animation {
+  font-size: 20px;
+  animation: fly 2s infinite alternate;
+}
+
+@keyframes fly {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-6px);
+  }
+}
+
+/* NEW ROW BUTTON */
+.new-fancy-row-container {
+  text-align: right;
+  background: #fff;
+  padding: 16px 24px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.new-fancy-row-btn {
+  background: linear-gradient(90deg, #3F9AAE, var(--srExtend-navBar));
+  color: #fff !important;
+  border: none;
+  padding: 8px 18px !important;
+  border-radius: 8px !important;
+  font-size: 1rem !important;
+  font-weight: 500 ;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  text-transform:capitalize !important;
+  gap: 8px;
+  box-shadow: 0 3px 6px rgba(37, 99, 235, 0.3);
+}
+.new-fancy-row-btn-next {
+  background: #fff;
+  color: #1976d2;
+  border: 1px solid #1976d2;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 3px 6px rgba(37, 99, 235, 0.3);
+}
+.new-fancy-row-btn:hover,.new-fancy-row-btn-next:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.35);
+}
+
+
+.actions-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 20px 0;
+}
+
+/* Base Button Style */
+.action-btn {
+  padding: 12px 22px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: 0.4px;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.18);
+}
+
+/* Hover Animation */
+.action-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+}
+
+.action-btn:active {
+  transform: scale(0.97);
+}
+
+
+/* Container for the four buttons */
+.assign-buttons {
+  display: flex;
+  gap: 14px;
+  margin-top: 25px;
+  padding: 10px 5px;
+}
+
+/* Unified button style */
+.assign-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+/* Blue gradient button */
+.gradient-blue {
+  background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+  color: white;
+  border: none;
+}
+
+.gradient-blue:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 130, 255, 0.4);
+}
+
+/* Outline buttons */
+.outline-btn {
+  background: white;
+  border: 2px solid #3a7bd5;
+  color: #3a7bd5;
+}
+
+.outline-btn:hover {
+  background: #3a7bd5;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Icons */
+.assign-btn i {
+  font-size: 14px;
+}
+
+

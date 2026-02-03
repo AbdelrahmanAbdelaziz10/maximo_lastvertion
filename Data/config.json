@@ -1,0 +1,307 @@
+{
+  "tabs": [
+    "Service Request",
+    "Related Records",
+    "Log",
+    "Map"
+  ],
+
+  "ServiceRequestDetails": {
+    "left": [
+      { "key": "DESCRIPTION", "label": "Description" },
+      { "label": "Details", "key": "details", "type": "textbox" },
+      { "label": "Asset", "key": "asset" },
+      { "key": "LOCATION", "label": "Location" },
+      { "label": "Configuration Item", "key": "configItem" },
+      { "label": "Target Description", "key": "targetDescription" },
+      { "label": "GL Account", "key": "glAccount" },
+      { "label": "Asset Site", "key": "assetSite" }
+    ],
+    "right": [
+      { "label": "Classification", "key": "classification" },
+      { "label": "Class Description", "key": "classDescription" },
+      { "key": "EXEDEPT", "label": "Department" },
+      { "key": "WORKTYPE", "label": "Work Type" },
+      { "key": "REPORTEDPRIORITY", "label": "Priority" },
+      { "label": "Internal Priority", "key": "internalPriority" },
+      { "label": "Service Group", "key": "serviceGroup" },
+      { "label": "Service", "key": "service" },
+      { "label": "Vendor", "key": "vendor" },
+      { "label": "Site", "key": "site" },
+      { "label": "WO Options", "key": "createWOOptions" }
+    ]
+  },
+
+  "UserInformation": {
+    "left": [
+      { "label": "Requested By", "key": "requestedBy" },
+      { "label": "Created By", "key": "createdBy" },
+      { "label": "Name", "key": "name" },
+      { "label": "Phone", "key": "phone" },
+      { "label": "E-mail", "key": "email" }
+    ],
+    "right": [
+      { "label": "Reported By", "key": "reportedBy" },
+      { "label": "Full Name", "key": "fullName" },
+      { "label": "Phone", "key": "contactPhone" },
+      { "label": "E-mail", "key": "contactEmail" }
+    ]
+  },
+  "UserInformationAll": [
+      { "label": "Requested By", "key": "requestedBy" },
+      { "label": "Created By", "key": "createdBy" },
+      { "label": "Name", "key": "name" },
+      { "label": "Phone", "key": "phone" },
+      { "label": "E-mail", "key": "email" },
+      { "label": "Reported By", "key": "reportedBy" },
+      { "label": "Full Name", "key": "fullName" },
+      { "label": "Phone", "key": "contactPhone" },
+      { "label": "E-mail", "key": "contactEmail" }
+    ]
+  ,
+  "DatesGroups": [
+    [
+      { "label": "Reported Date", "key": "reportedDate" },
+      { "label": "Created By", "key": "createdByDate" }
+    ],
+    [
+      { "label": "Target Contact", "key": "targetContact" },
+      { "label": "Target Start", "key": "targetStart" },
+      { "label": "Target Finish", "key": "targetFinish" }
+    ],
+    [
+      { "label": "Actual Contact", "key": "actualContact" },
+      { "label": "Actual Start", "key": "actualStart" },
+      { "label": "Actual Finish", "key": "actualFinish" }
+    ]
+  ],
+
+  "DetailsList": [
+    { "title": "Select Value", "icon": "search" },
+    { "title": "Go To People", "icon": "link" },
+    { "title": "View Tickets and WOs", "icon": "preview" }
+  ],
+  "tableData": [
+    {
+      "person": "HELPDESK2",
+      "name": "Helodesk 2",
+      "title": "Test1",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK3",
+      "name": "Helodesk 3",
+      "title": "Test2",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK2",
+      "name": "Helodesk 2",
+      "title": "Test3",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK3",
+      "name": "Helodesk 3",
+      "title": "Test4",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK2",
+      "name": "Helodesk 2",
+      "title": "Test1",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK3",
+      "name": "Helodesk 3",
+      "title": "Test2",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK2",
+      "name": "Helodesk 2",
+      "title": "Test3",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK3",
+      "name": "Helodesk 3",
+      "title": "Test4",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK2",
+      "name": "Helodesk 2",
+      "title": "Test",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK3",
+      "name": "Helodesk 3",
+      "title": "Test",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK2",
+      "name": "Helodesk 2",
+      "title": "Test",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK3",
+      "name": "Helodesk 3",
+      "title": "Test",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK2",
+      "name": "Helodesk 2",
+      "title": "Test",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK3",
+      "name": "Helodesk 3",
+      "title": "Test",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK2",
+      "name": "Helodesk 2",
+      "title": "Test",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    },
+    {
+      "person": "HELPDESK3",
+      "name": "Helodesk 3",
+      "title": "Test",
+      "dept": "ADMIN",
+      "location": "Test",
+      "site": "Test",
+      "org": "Test"
+    }
+  ],
+  "SRTable": [
+    "Service Request",
+    "Summary",
+    "Department",
+    "Work Type",
+    "Priority",
+    "Requested By",
+    "Status",
+    "Reported Date"
+  ],
+  "AssetTable": [
+    "Asset",
+    "Description",
+    "Location",
+    "Parent",
+    "Rotating Item",
+    "Asset Group",
+    "Asset Department",
+    "Priority",
+    "Site"
+  ],
+  "ServiceAddress": {
+    "left": [
+      { "label": "Service Address" },
+      { "label": "Formatted Address" },
+      { "label": "Street Address" },
+      { "label": "Address Line 2" },
+      { "label": "Address Line 3" },
+      { "label": "City" },
+      { "label": "Region/District" },
+      { "label": "County" },
+      { "label": "State/Province" },
+      { "label": "Zip/Postal Code" },
+      { "label": "Country" },
+      { "label": "GEO Code" },
+      { "label": "Time Zone" }
+    ],
+    "right": [
+      { "label": "Latitude(Y)" },
+      { "label": "Longitude(X)" },
+      { "label": "Reference Point" },
+      { "label": "Directions" }
+    ]
+  },
+  "SRRelatedTicketsTable1":[
+    "Related Record Key",
+    "Description",
+    "Class",
+    "Status",
+    "Relationship"
+  ],
+   "SRRelatedWorkOrder":[
+    "Work Order",
+    "Description",
+    "Class",
+    "Status",
+    "Relationship",
+      "Delete"
+
+  ],
+  "LogCommunicationLogs":[
+    "Originating Application ID",
+    "IS Global Issue?",
+    "Created By",
+    "To",
+    "Date",
+    "subject"
+  ],
+   "WorkLogs":[
+    "Record",
+    "Class",
+    "Created By",
+    "Date",
+    "Type",
+    "Summary",
+    "Viewable"
+  ]
+}

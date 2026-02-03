@@ -1,0 +1,48 @@
+.app-container {
+  background-color: #fdfcfe;
+}
+
+.content-area {
+  padding: 1rem;
+}
+
+.chart-main-card {
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.card-title {
+  margin-bottom: 1rem;
+}
+
+/* Stats Cards spacing */
+.stats-section .col {
+  display: flex;
+  justify-content: center;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+  .content-area {
+    margin-left: 0 !important;
+    padding: 0.5rem;
+  }
+
+  .chart-main-card {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 992px) {
+  .content-area {
+    margin-left: 0 !important;
+  }
+}

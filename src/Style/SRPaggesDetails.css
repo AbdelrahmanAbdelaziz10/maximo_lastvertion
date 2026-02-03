@@ -1,0 +1,33 @@
+.Sr_label{
+    font-size: .9rem;
+    font-weight: 600;
+    padding-top: .4rem;
+}
+.Sr_input{
+    width: 30%;
+    margin-left: .5rem;
+}
+.print-iconBox {
+  border: 1.5px solid var(--srExtend-navBar);
+  padding: 0.2rem;
+  border-radius: 6px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fdfcfe;
+  box-shadow: 2px 3px var(--srExtend-navBar);
+  cursor: pointer;
+  position: relative;
+  left: 0;
+  top: 0;                 /* 👈 يفضل فوق المحتوى */
+  z-index: 10;
+  user-select: none;
+  margin-right:.5rem;
+}
+
+.printer-icon {
+  color: var(--srExtend-navBar);
+  font-size: 1rem;
+}
