@@ -6,7 +6,6 @@ import {
   ListItemText,
   ListItemButton,
   Box,
-  Collapse,
   Tooltip,
   Paper,
   Popper,
@@ -16,31 +15,22 @@ import {
 import {
   Dashboard as DashboardIcon,
   Create as CreateIcon,
-  ListAlt as WorkOrdersIcon,
-  Business as AssetsIcon,
-  Assessment as ReportsIcon,
-  Settings as SettingsIcon,
-  ExpandLess,
-  ExpandMore,
-  Category as TypesIcon,
-  CheckCircle as StatusIcon,
   Construction as ConstructionIcon,
 } from "@mui/icons-material";
-
 import { Link, useLocation } from "react-router-dom";
-import path from "path";
+import { IoMdArrowDropright } from "react-icons/io";
 
-const Sidebar = ({ isOpen, width = 220 }) => {
+const Sidebar = ({ isOpen, width = 200, onRunReports }) => {
   const location = useLocation();
-  const [reportsOpen, setReportsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [popperOpen, setPopperOpen] = useState(false);
+  const popperOpen = Boolean(anchorEl);
+
   const [activePath, setActivePath] = useState("");
   const [navbarHeight, setNavbarHeight] = useState(0);
 
-  // تحديث ارتفاع Navbar ديناميكي
+  // ===== Navbar Height =====
   useEffect(() => {
-    const navbarEl = document.querySelector(".navbar-container"); // أضف هذا الكلاس للـ Navbar
+    const navbarEl = document.querySelector(".navbar-container");
     if (navbarEl) setNavbarHeight(navbarEl.offsetHeight);
 
     const handleResize = () => {
@@ -51,52 +41,73 @@ const Sidebar = ({ isOpen, width = 220 }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const menuItems = [
-    { text: "Dashboard", icon: <DashboardIcon />, path: "/dashboard" },
-    { text: "Service Request", icon: <CreateIcon />, path: "/service-request" },
-    { text: "Assets", icon: <ConstructionIcon />, path: "/assets" },
-    { text: "My Work Orders", icon: <WorkOrdersIcon />, path: "/work-orders" },
-    { text: "Viewer AutoCad", icon: <AssetsIcon />, path: "/viewer" },
-    {
-      text: "Reports",
-      icon: <ReportsIcon />,
-      path: "/reports",
-      subItems: [
-        {
-          text: "Work Order Types",
-          path: "/reports/types",
-          icon: <TypesIcon />,
-        },
-        {
-          text: "Work Order Status",
-          path: "/reports/status",
-          icon: <StatusIcon />,
-        },
-      ],
-    },
-    { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
-  ];
-
+  // ===== Active Path =====
   useEffect(() => {
     setActivePath(location.pathname);
-    const reportsItem = menuItems.find((item) => item.subItems);
-    if (reportsItem?.subItems.some((sub) => sub.path === location.pathname)) {
-      setReportsOpen(true);
-    }
   }, [location.pathname]);
 
-  const isItemActive = (item) =>
-    item.path === activePath ||
-    (item.subItems && item.subItems.some((sub) => sub.path === activePath));
-  const isSubItemActive = (subItem) => subItem.path === activePath;
-  const handleReportsToggle = () => setReportsOpen(!reportsOpen);
-  const handleReportsHover = (event) => {
-    if (!isOpen) {
-      setAnchorEl(event.currentTarget);
-      setPopperOpen(true);
+  // ===== Menu =====
+  const menuItems = [
+    {
+      text: "Dashboard",
+      icon: <DashboardIcon />,
+      path: "/dashboard",
+    },
+    {
+      text: "Service Request",
+      icon: <CreateIcon />,
+      path: "/service-request",
+      subItems: [
+        { text: "Change Status", action: "changeStatus" },
+        { text: "Select Owner", action: "selectOwner" },
+        { text: "Take Ownership", action: "takeOwnership" },
+        { text: "Run Reports", action: "runReports" },
+        { text: "Cognos Analytics", action: "cognosAnalytics" },
+      ],
+    },
+    {
+      text: "Assets",
+      icon: <ConstructionIcon />,
+      path: "/assets",
+    },
+  ];
+
+  // === Dropdown actions ===
+  const handleAction = (action) => {
+    switch (action) {
+      case "changeStatus":
+        console.log("Changing status...");
+        break;
+      case "selectOwner":
+        console.log("Selecting owner...");
+        break;
+      case "takeOwnership":
+        console.log("Taking ownership...");
+        break;
+      case "runReports":
+        if (onRunReports) onRunReports(); // استدعاء callback من MainLayout
+        break;
+      case "cognosAnalytics":
+        console.log("Opening Cognos Analytics...");
+        break;
+      default:
+        break;
     }
   };
-  const handleReportsLeave = () => setPopperOpen(false);
+
+  const isItemActive = (item) =>
+    item.path === activePath || (item.subItems && activePath.startsWith(item.path));
+
+  // ===== Hover Handlers (Only when isOpen) =====
+  const handleMouseEnter = (event) => {
+    if (!isOpen) return;
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMouseLeave = () => {
+    if (!isOpen) return;
+    setAnchorEl(null);
+  };
 
   return (
     <Drawer
@@ -119,72 +130,52 @@ const Sidebar = ({ isOpen, width = 220 }) => {
       <List sx={{ px: 1, py: 1 }}>
         {menuItems.map((item) => (
           <Box key={item.text}>
+            {/* ===== Item With Popper ===== */}
             {item.subItems ? (
               <>
-                <ListItemButton
-                  onClick={handleReportsToggle}
-                  onMouseEnter={handleReportsHover}
-                  onMouseLeave={handleReportsLeave}
-                  sx={{
-                    borderRadius: "5px",
-                    mb: "4px",
-                    backgroundColor: isItemActive(item)
-                      ? "rgba(255,255,255,0.2)"
-                      : "transparent",
-                    "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
-                  }}
-                >
-                  <ListItemIcon sx={{ color: "#fff", minWidth: 40 }}>
-                    {item.icon}
-                  </ListItemIcon>
-                  {isOpen && (
-                    <>
-                      <ListItemText
-                        primary={item.text}
-                        sx={{ "& span": { fontWeight: "bold", color: "#fff" } }}
-                      />
-                      {reportsOpen ? <ExpandLess /> : <ExpandMore />}
-                    </>
-                  )}
-                </ListItemButton>
+                <Tooltip title={!isOpen ? item.text : ""} placement="right">
+                  <ListItemButton
+                    component={Link}
+                    to={item.path}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    sx={{
+                      borderRadius: "5px",
+                      p: ".4rem",
+                      mb: "4px",
+                      backgroundColor: isItemActive(item)
+                        ? "rgba(255,255,255,0.2)"
+                        : "transparent",
+                      "&:hover": {
+                        backgroundColor: "rgba(255,255,255,0.1)",
+                      },
+                    }}
+                  >
+                    <ListItemIcon sx={{ color: "#fff", minWidth: 30 }}>
+                      {item.icon}
+                    </ListItemIcon>
 
-                {isOpen && (
-                  <Collapse in={reportsOpen} timeout="auto" unmountOnExit>
-                    <List disablePadding sx={{ ml: 2 }}>
-                      {item.subItems.map((subItem) => (
-                        <ListItemButton
-                          key={subItem.text}
-                          component={Link}
-                          to={subItem.path}
+                    {isOpen && (
+                      <>
+                        <ListItemText
+                          primary={item.text}
                           sx={{
-                            mb: "2px",
-                            backgroundColor: isSubItemActive(subItem)
-                              ? "rgba(255,255,255,0.2)"
-                              : "transparent",
-                            "&:hover": {
-                              backgroundColor: "rgba(255,255,255,0.1)",
+                            m: "0",
+                            "& span": {
+                              fontSize: ".9rem",
+                              fontWeight: "bold",
+                              color: "#fff",
                             },
                           }}
-                        >
-                          <ListItemIcon sx={{ color: "#fff", minWidth: 30 }}>
-                            {subItem.icon}
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={subItem.text}
-                            sx={{
-                              "& span": {
-                                fontSize: "0.9rem",
-                                fontWeight: "bold",
-                              },
-                            }}
-                          />
-                        </ListItemButton>
-                      ))}
-                    </List>
-                  </Collapse>
-                )}
+                        />
+                        <IoMdArrowDropright />
+                      </>
+                    )}
+                  </ListItemButton>
+                </Tooltip>
 
-                {!isOpen && (
+                {/* ===== Popper (Only if isOpen) ===== */}
+                {isOpen && (
                   <Popper
                     open={popperOpen}
                     anchorEl={anchorEl}
@@ -192,11 +183,11 @@ const Sidebar = ({ isOpen, width = 220 }) => {
                     sx={{ zIndex: 1300 }}
                   >
                     <Paper
-                      onMouseEnter={() => setPopperOpen(true)}
-                      onMouseLeave={handleReportsLeave}
                       elevation={3}
+                      onMouseEnter={() => setAnchorEl(anchorEl)}
+                      onMouseLeave={handleMouseLeave}
                       sx={{
-                        minWidth: 200,
+                        minWidth: 220,
                         backgroundColor: "var(--primary-color)",
                         color: "#fff",
                       }}
@@ -205,22 +196,16 @@ const Sidebar = ({ isOpen, width = 220 }) => {
                         {item.subItems.map((subItem) => (
                           <MenuItem
                             key={subItem.text}
-                            component={Link}
-                            to={subItem.path}
-                            onClick={handleReportsLeave}
+                            onClick={() => handleAction(subItem.action)}
                             sx={{
+                              fontWeight: "bold",
                               color: "#fff",
                               "&:hover": {
                                 backgroundColor: "rgba(255,255,255,0.1)",
                               },
                             }}
                           >
-                            <ListItemIcon sx={{ color: "#fff", minWidth: 35 }}>
-                              {subItem.icon}
-                            </ListItemIcon>
-                            <Box sx={{ fontWeight: "bold" }}>
-                              {subItem.text}
-                            </Box>
+                            {subItem.text}
                           </MenuItem>
                         ))}
                       </MenuList>
@@ -229,26 +214,37 @@ const Sidebar = ({ isOpen, width = 220 }) => {
                 )}
               </>
             ) : (
+              /* ===== Normal Item ===== */
               <Tooltip title={!isOpen ? item.text : ""} placement="right">
                 <ListItemButton
                   component={Link}
                   to={item.path}
                   sx={{
-                    borderRadius: "5px",
+                    borderRadius: "4px",
+                    p: ".3rem",
                     mb: "4px",
                     backgroundColor: isItemActive(item)
                       ? "rgba(255,255,255,0.2)"
                       : "transparent",
-                    "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                    "&:hover": {
+                      backgroundColor: "rgba(255,255,255,0.1)",
+                    },
                   }}
                 >
-                  <ListItemIcon sx={{ color: "#fff", minWidth: 40 }}>
+                  <ListItemIcon sx={{ color: "#fff", minWidth: 30 }}>
                     {item.icon}
                   </ListItemIcon>
+
                   {isOpen && (
                     <ListItemText
                       primary={item.text}
-                      sx={{ "& span": { fontWeight: "bold", color: "#fff" } }}
+                      sx={{
+                        "& span": {
+                          fontSize: ".9rem",
+                          fontWeight: "600",
+                          color: "#fff",
+                        },
+                      }}
                     />
                   )}
                 </ListItemButton>

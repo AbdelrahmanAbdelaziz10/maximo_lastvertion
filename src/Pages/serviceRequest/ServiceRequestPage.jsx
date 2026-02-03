@@ -28,6 +28,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import { Snackbar, Alert } from "@mui/material";
+import { FaRoute } from "react-icons/fa6";
 
 const tabs = [
   "Service Request",
@@ -172,6 +173,18 @@ const ServiceRequestPage = () => {
                 <SkipNextIcon
   className="printer-icon"
   onClick={() => changeSR("next")}
+/>
+              </motion.div>
+            </Tooltip>
+             <Tooltip title="Route Workflow" arrow placement="bottom">
+              <motion.div
+                className="print-iconBox"
+                whileTap={{ scale: 0.9, y: 3 }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              >
+                <FaRoute 
+  className="printer-icon"
 />
               </motion.div>
             </Tooltip>
