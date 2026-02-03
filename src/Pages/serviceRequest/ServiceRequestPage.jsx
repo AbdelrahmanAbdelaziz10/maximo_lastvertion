@@ -158,7 +158,6 @@ const ServiceRequestPage = () => {
               >
                 <SaveIcon
                   className="printer-icon"
-                  onClick={() => setShowReportsModal(true)}
                 />
               </motion.div>
             </Tooltip>
