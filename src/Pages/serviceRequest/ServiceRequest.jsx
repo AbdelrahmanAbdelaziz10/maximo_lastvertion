@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Col, Row, Dropdown } from "react-bootstrap";
-import { Box, Typography, Grid, CircularProgress } from "@mui/material";
+import { Box, Typography, Grid, CircularProgress, Tooltip } from "@mui/material";
 import { Assignment, BarChart, EventAvailable } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import TableData from "../../components/Common/TableData";
@@ -12,6 +12,9 @@ import ReportsModal from "../../components/ReportsModal";
 import { useFetch } from "../../hooks/getFetch";
 import WFTableData from "../../components/Common/WFTableData";
 import "../../Style/ServiceRequest.css";
+import { motion, AnimatePresence } from "framer-motion";
+import SaveIcon from "@mui/icons-material/Save";
+import { IoMdCreate } from "react-icons/io";
 
 const ServiceRequest = () => {
 const [tableTitle, setTableTitle] = useState("Total Service Request");
@@ -212,15 +215,14 @@ const {
 
 {/* ===== Header ===== */}
       <Row className="sr-header align-items-center g-3 my-4 mt-0">
-        <Col xs={12} md={4}>
+        <Col xs={12} md={8}>
           <h4 className="sr-title">Service Request </h4>
         </Col>
-
+{/* 
         <Col xs={12} md={4} className="d-flex justify-content-md-center">
           <Dropdown>
             <Dropdown.Toggle className="sr-button">
               Select Action
-              {/* <ArrowDropDownIcon /> */}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item onClick={() => handleAction("changeStatus")}>Change Status</Dropdown.Item>
@@ -231,13 +233,28 @@ const {
               <Dropdown.Item onClick={() => handleAction("cognosAnalytics")}>Cognos Analytics</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-        </Col>
+        </Col> */}
 
         <Col xs={12} md={4} className="d-flex justify-content-md-end">
-          <Link to="/create-SR" className="sr-button">
+                    <Link to="/create-SR" >
+        <Tooltip title="Save" arrow placement="bottom">
+                      <motion.div
+                        className="print-iconBox create_sr"
+                        whileTap={{ scale: 0.9, y: 3 }}
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                      >
+                        <IoMdCreate 
+                          className="printer-icon"
+                        />
+                        Create Service Request
+                      </motion.div>
+                    </Tooltip>
+                    </Link>
+          {/* <Link to="/create-SR" className="sr-button">
             <AddIcon fontSize="small" />
             <span>Create Service Request</span>
-          </Link>
+          </Link> */}
         </Col>
       </Row>
 

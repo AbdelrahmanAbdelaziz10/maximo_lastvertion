@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSidebar } from "../../components/Context/SidebarContext";
 import { Box } from "@mui/material";
 import "../../Style/SRPaggesDetails.css";
@@ -29,6 +29,7 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import { Snackbar, Alert } from "@mui/material";
 import { FaRoute } from "react-icons/fa6";
+import { IoMdCreate } from "react-icons/io";
 
 const tabs = [
   "Service Request",
@@ -64,25 +65,27 @@ const ServiceRequestPage = () => {
     }
   }, []);
 
-  {/* for next and Previous id  */}
+  {
+    /* for next and Previous id  */
+  }
   const changeSR = (direction) => {
-  if (!srId) return;
+    if (!srId) return;
 
-  // SR-12 → 12
-  const match = srId.match(/\d+/);
-  if (!match) return;
+    // SR-12 → 12
+    const match = srId.match(/\d+/);
+    if (!match) return;
 
-  const currentNumber = parseInt(match[0], 10);
-  const newNumber =
-    direction === "next" ? currentNumber + 1 : currentNumber - 1;
+    const currentNumber = parseInt(match[0], 10);
+    const newNumber =
+      direction === "next" ? currentNumber + 1 : currentNumber - 1;
 
-  if (newNumber <= 0) return;
+    if (newNumber <= 0) return;
 
-  const newSRId = `SR-${newNumber}`;
+    const newSRId = `SR-${newNumber}`;
 
-  setSrId(newSRId);
-  navigate(`/service-request/${newSRId}`);
-};
+    setSrId(newSRId);
+    navigate(`/service-request/${newSRId}`);
+  };
 
   // 🎯 URL النهائي بدون كتابة IP
   const SR_URL = `http://192.168.0.73:9080/maxrest/oslc/os/PORTALSR?lean=1&oslc.select=*&oslc.where=ticketid=%22${srId}%22&_lid=${userName}&_lpwd=${userPassword}`;
@@ -135,6 +138,33 @@ const ServiceRequestPage = () => {
               gap: 1,
             }}
           >
+            {/* Create New Service Request */}
+            <Link to="/create-SR" >
+              <Tooltip title="Create New" arrow placement="bottom">
+                <motion.div
+                  className="print-iconBox"
+                  whileTap={{ scale: 0.9, y: 3 }}
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                >
+                  <IoMdCreate className="printer-icon" />
+                </motion.div>
+              </Tooltip>
+            </Link>
+
+            {/* Save Service Request */}
+            <Tooltip title="Save" arrow placement="bottom">
+              <motion.div
+                className="print-iconBox"
+                whileTap={{ scale: 0.9, y: 3 }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              >
+                <SaveIcon className="printer-icon" />
+              </motion.div>
+            </Tooltip>
+
+            {/* Previous Service Request */}
             <Tooltip title="Previous SR" arrow placement="bottom">
               <motion.div
                 className="print-iconBox"
@@ -143,25 +173,13 @@ const ServiceRequestPage = () => {
                 transition={{ type: "spring", stiffness: 400, damping: 15 }}
               >
                 <SkipPreviousIcon
-  className="printer-icon"
-  onClick={() => changeSR("prev")}
-/>
-              </motion.div>
-            </Tooltip>
-
-            <Tooltip title="Save" arrow placement="bottom">
-              <motion.div
-                className="print-iconBox"
-                whileTap={{ scale: 0.9, y: 3 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              >
-                <SaveIcon
                   className="printer-icon"
+                  onClick={() => changeSR("prev")}
                 />
               </motion.div>
             </Tooltip>
 
+            {/* Next Service Request */}
             <Tooltip title="Next SR" arrow placement="bottom">
               <motion.div
                 className="print-iconBox"
@@ -170,21 +188,20 @@ const ServiceRequestPage = () => {
                 transition={{ type: "spring", stiffness: 400, damping: 15 }}
               >
                 <SkipNextIcon
-  className="printer-icon"
-  onClick={() => changeSR("next")}
-/>
+                  className="printer-icon"
+                  onClick={() => changeSR("next")}
+                />
               </motion.div>
             </Tooltip>
-             <Tooltip title="Route Workflow" arrow placement="bottom">
+            {/* Route Workflow Service Request */}
+            <Tooltip title="Route Workflow" arrow placement="bottom">
               <motion.div
                 className="print-iconBox"
                 whileTap={{ scale: 0.9, y: 3 }}
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400, damping: 15 }}
               >
-                <FaRoute 
-  className="printer-icon"
-/>
+                <FaRoute className="printer-icon" />
               </motion.div>
             </Tooltip>
           </Box>

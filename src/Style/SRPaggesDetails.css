@@ -26,7 +26,14 @@
   user-select: none;
   margin-right:.5rem;
 }
+.create_sr{
+  width: auto ;
+  height: auto;
+  color: var(--srExtend-navBar);
+  font-weight: 600;
+    padding: 0.5rem;
 
+}
 .printer-icon {
   color: var(--srExtend-navBar);
   font-size: 1rem;
