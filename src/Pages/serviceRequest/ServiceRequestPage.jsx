@@ -30,6 +30,7 @@ import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import { Snackbar, Alert } from "@mui/material";
 import { FaRoute } from "react-icons/fa6";
 import { IoMdCreate } from "react-icons/io";
+import { useSRData } from "../../components/Context/SRDataContext";
 
 const tabs = [
   "Service Request",
@@ -42,6 +43,8 @@ const tabs = [
 ];
 
 const ServiceRequestPage = () => {
+const { srData, setSrData } = useSRData();
+  console.log("useSRData:",srData)
   const { id } = useParams();
   const [srId, setSrId] = useState(id);
   const navigate = useNavigate();
@@ -68,24 +71,32 @@ const ServiceRequestPage = () => {
   {
     /* for next and Previous id  */
   }
-  const changeSR = (direction) => {
-    if (!srId) return;
 
-    // SR-12 → 12
-    const match = srId.match(/\d+/);
-    if (!match) return;
+const changeSR = (direction) => {
+  if (!srId || !srData?.length) return;
 
-    const currentNumber = parseInt(match[0], 10);
-    const newNumber =
-      direction === "next" ? currentNumber + 1 : currentNumber - 1;
+  const currentIndex = srData.findIndex(
+    (item) => item.ticketid === srId
+  );
 
-    if (newNumber <= 0) return;
+  if (currentIndex === -1) return;
 
-    const newSRId = `SR-${newNumber}`;
+  let newIndex =
+    direction === "next"
+      ? currentIndex + 1
+      : currentIndex - 1;
 
-    setSrId(newSRId);
-    navigate(`/service-request/${newSRId}`);
-  };
+  if (newIndex < 0 || newIndex >= srData.length) return;
+
+  const newSR = srData[newIndex];
+
+  // ✅ تحديث الكونتكست نفسه
+  setSrData(srData);
+
+  // ✅ تحديث الـ route
+  setSrId(newSR.ticketid);
+  navigate(`/service-request/${newSR.ticketid}`);
+};
 
   // 🎯 URL النهائي بدون كتابة IP
   const SR_URL = `http://192.168.0.73:9080/maxrest/oslc/os/PORTALSR?lean=1&oslc.select=*&oslc.where=ticketid=%22${srId}%22&_lid=${userName}&_lpwd=${userPassword}`;
@@ -111,6 +122,7 @@ const ServiceRequestPage = () => {
     //   qrUrl={`${window.location.origin}/maximo/service-request/${id}`}
     // />,
   ];
+
 
   return (
     <div className="mb-2">
@@ -189,7 +201,7 @@ const ServiceRequestPage = () => {
               >
                 <SkipNextIcon
                   className="printer-icon"
-                  onClick={() => changeSR("next")}
+                  onClick={() =>{ changeSR("next");console.log("id:",id)}}
                 />
               </motion.div>
             </Tooltip>

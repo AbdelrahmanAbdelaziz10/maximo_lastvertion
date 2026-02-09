@@ -5,6 +5,8 @@ const SRDataContext = createContext(undefined);
 export const SRDataProvider = ({ children }) => {
   const [srData, setSrData] = useState([]);
   const [tableTitle, setTableTitle] = useState("");
+  console.log("context Data:",srData)
+    console.log("table Title Data:",tableTitle)
 
   const value = useMemo(
     () => ({
