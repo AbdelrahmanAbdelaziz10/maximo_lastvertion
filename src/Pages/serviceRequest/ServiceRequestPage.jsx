@@ -1,64 +1,49 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { useSidebar } from "../../components/Context/SidebarContext";
-import { Box } from "@mui/material";
-import "../../Style/SRPaggesDetails.css";
-import SRMap from "../../components/ServesDetailsCom/SRMap";
-import { useFetch } from "../../hooks/getFetch";
-import ExtendNavBarTabs from "../../components/ServesDetailsCom/ExtendNavBarTabs";
-import SRDetailsCom from "../../components/ServesDetailsCom/SRDetailsCom";
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { Box, Tooltip } from "@mui/material";
+import { SkipNext, SkipPrevious, Save } from "@mui/icons-material";
+import { IoMdCreate } from "react-icons/io";
+import { FaRoute } from "react-icons/fa6";
+import { motion } from "framer-motion";
+
+import { useSidebar } from "../../components/Context/SidebarContext";
 import { useAuth } from "../../components/Context/AuthContext";
-import SRAddress from "../../components/ServesDetailsCom/SRAddress";
-import SRSpecifications from "../../components/ServesDetailsCom/SRSpecifications";
-import SRLog from "../../components/ServesDetailsCom/SRLog";
-import QRDisplay from "../../components/QRDisplay";
-import SRRelatedRecords from "../../components/ServesDetailsCom/SRRelatedRecords";
-import printerImage from "../../assets/printer-icon.png";
-// 👍 استيراد API_BASE
-import { SR_API } from "../../config/api";
+import { useSRData } from "../../components/Context/SRDataContext";
+import { useFetch } from "../../hooks/getFetch";
+
+import ExtendNavBarTabs from "../../components/ServesDetailsCom/ExtendNavBarTabs";
 import SRDetails from "../../components/SRShow/SRDetails";
-import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
-import ReportsModal from "../../components/ReportsModal";
+import SRRelatedRecords from "../../components/ServesDetailsCom/SRRelatedRecords";
+import SRLog from "../../components/ServesDetailsCom/SRLog";
+import SRAddress from "../../components/ServesDetailsCom/SRAddress";
+import SRMap from "../../components/ServesDetailsCom/SRMap";
+import QRDisplay from "../../components/QRDisplay";
 import Pops from "../../components/Common/Pops";
 import MapCom from "../../components/ServesDetailsCom/MapCom";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
-import { Tooltip } from "@mui/material";
-import SaveIcon from "@mui/icons-material/Save";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import { Snackbar, Alert } from "@mui/material";
-import { FaRoute } from "react-icons/fa6";
-import { IoMdCreate } from "react-icons/io";
-import { useSRData } from "../../components/Context/SRDataContext";
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
+import printerImage from "../../assets/printer-icon.png";
+import "../../Style/SRPaggesDetails.css";
 
-const tabs = [
-  "Service Request",
-  "Related Records",
-  "Log",
-  // "Specifications",
-  // "Service Address",
-  // "Map",
-  // "QR Code",
-];
+const tabs = ["Service Request", "Related Records", "Log"];
+
+// ✅ استخراج ticketid سواء Total SR أو Overdue SR
+const getTicketId = (item) => item?.ticketid || item?.sr?.[0]?.ticketid || null;
 
 const ServiceRequestPage = () => {
-const { srData, setSrData } = useSRData();
-  console.log("useSRData:",srData)
+  const { srData } = useSRData();
   const { id } = useParams();
-  const [srId, setSrId] = useState(id);
+  const [srId, setSrId] = useState(null);
   const navigate = useNavigate();
-  const { username, userId, password } = useAuth();
+  const { username } = useAuth();
+  const [userName, setUserName] = useState("");
+  const [userPassword, setUserPassword] = useState("");
   const { sidebarOpen } = useSidebar();
-  const [activeTab, setActiveTab] = React.useState(0);
+  const [activeTab, setActiveTab] = useState(0);
   const [showReportsModal, setShowReportsModal] = useState(false);
   const [map, setMap] = useState(false);
 
-  const sidebarWidth = sidebarOpen ? 220 : 65;
-
-  const [userName, setUserName] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-
+  // ✅ بيانات اليوزر
   useEffect(() => {
     const stored = localStorage.getItem("UserInfo");
     if (stored) {
@@ -68,61 +53,61 @@ const { srData, setSrData } = useSRData();
     }
   }, []);
 
-  {
-    /* for next and Previous id  */
-  }
+  // ✅ تحديد SR ID من context أو URL
+  useEffect(() => {
+    if (!srData?.length) return;
 
-const changeSR = (direction) => {
-  if (!srId || !srData?.length) return;
+    const exists = srData.find((item) => getTicketId(item) === id);
 
-  const currentIndex = srData.findIndex(
-    (item) => item.ticketid === srId
-  );
+    if (exists) {
+      setSrId(getTicketId(exists));
+    } else {
+      const firstId = getTicketId(srData[0]);
+      if (!firstId) return;
 
-  if (currentIndex === -1) return;
+      setSrId(firstId);
+      navigate(`/service-request/${firstId}`, { replace: true });
+    }
+  }, [id, srData, navigate]);
 
-  let newIndex =
-    direction === "next"
+  // ✅ Next / Previous navigation
+  const changeSR = (direction) => {
+    if (!srId || !srData?.length) return;
+
+    const currentIndex = srData.findIndex(
+      (item) => getTicketId(item) === srId
+    );
+
+    if (currentIndex === -1) return;
+
+    const newIndex = direction === "next"
       ? currentIndex + 1
       : currentIndex - 1;
 
-  if (newIndex < 0 || newIndex >= srData.length) return;
+    if (newIndex < 0 || newIndex >= srData.length) return;
 
-  const newSR = srData[newIndex];
+    const newId = getTicketId(srData[newIndex]);
+    if (!newId) return;
 
-  // ✅ تحديث الكونتكست نفسه
-  setSrData(srData);
+    setSrId(newId);
+    navigate(`/service-request/${newId}`);
+  };
 
-  // ✅ تحديث الـ route
-  setSrId(newSR.ticketid);
-  navigate(`/service-request/${newSR.ticketid}`);
-};
+  // ✅ Fetch SR Details
+  const SR_URL = srId
+    ? `http://192.168.0.73:9080/maxrest/oslc/os/PORTALSR?lean=1&oslc.select=*&oslc.where=ticketid=%22${srId}%22&_lid=${userName}&_lpwd=${userPassword}`
+    : null;
 
-  // 🎯 URL النهائي بدون كتابة IP
-  const SR_URL = `http://192.168.0.73:9080/maxrest/oslc/os/PORTALSR?lean=1&oslc.select=*&oslc.where=ticketid=%22${srId}%22&_lid=${userName}&_lpwd=${userPassword}`;
-  const SR_URL1 = `http://192.168.0.73:9080/maxrest/oslc/os/MXSR?lean=1&oslc.select=*&oslc.where=ticketid=%22SR-12%22&_lid=Helpdesk%201&_lpwd=Test1234`;
-  const {
-    data: SRDataRow,
-    loading: SRLoadingRow,
-    error: SRErrorRow,
-  } = useFetch(SR_URL);
-
+  const { data: SRDataRow } = useFetch(SR_URL);
   const RowDataSr = SRDataRow?.member ?? [];
-
-  // console.log("data:",SRDataRow)
 
   const tabContents = [
     <SRDetails RowDataSr={RowDataSr} />,
     <SRRelatedRecords RowDataSr={RowDataSr} Id={srId} />,
     <SRLog RowDataSr={RowDataSr} />,
-    // <SRSpecifications RowDataSr={RowDataSr} />,
     <SRAddress RowDataSr={RowDataSr} />,
     <SRMap />,
-    // <QRDisplay
-    //   qrUrl={`${window.location.origin}/maximo/service-request/${id}`}
-    // />,
   ];
-
 
   return (
     <div className="mb-2">
@@ -134,147 +119,75 @@ const changeSR = (direction) => {
       />
 
       <Box sx={{ mt: 1, minHeight: 300 }}>
-        {/* The button of work flow of SR*/}
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
             justifyContent: "space-between",
+            mb: 2,
+            gap: 1,
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-start",
-              mb: 2,
-              gap: 1,
-            }}
-          >
-            {/* Create New Service Request */}
-            <Link to="/create-SR" >
-              <Tooltip title="Create New" arrow placement="bottom">
-                <motion.div
-                  className="print-iconBox"
-                  whileTap={{ scale: 0.9, y: 3 }}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                >
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Link to="/create-SR">
+              <Tooltip title="Create New" arrow>
+                <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }} className="print-iconBox">
                   <IoMdCreate className="printer-icon" />
                 </motion.div>
               </Tooltip>
             </Link>
 
-            {/* Save Service Request */}
-            <Tooltip title="Save" arrow placement="bottom">
-              <motion.div
-                className="print-iconBox"
-                whileTap={{ scale: 0.9, y: 3 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              >
-                <SaveIcon className="printer-icon" />
+            <Tooltip title="Save" arrow>
+              <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }} className="print-iconBox">
+                <Save className="printer-icon" />
               </motion.div>
             </Tooltip>
 
-            {/* Previous Service Request */}
-            <Tooltip title="Previous SR" arrow placement="bottom">
-              <motion.div
-                className="print-iconBox"
-                whileTap={{ scale: 0.9, y: 3 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              >
-                <SkipPreviousIcon
-                  className="printer-icon"
-                  onClick={() => changeSR("prev")}
-                />
+            <Tooltip title="Previous SR" arrow>
+              <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }} className="print-iconBox">
+                <SkipPrevious onClick={() => changeSR("prev")} className="printer-icon" />
               </motion.div>
             </Tooltip>
 
-            {/* Next Service Request */}
-            <Tooltip title="Next SR" arrow placement="bottom">
-              <motion.div
-                className="print-iconBox"
-                whileTap={{ scale: 0.9, y: 3 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              >
-                <SkipNextIcon
-                  className="printer-icon"
-                  onClick={() =>{ changeSR("next");console.log("id:",id)}}
-                />
+            <Tooltip title="Next SR" arrow>
+              <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }} className="print-iconBox">
+                <SkipNext onClick={() => changeSR("next")} className="printer-icon" />
               </motion.div>
             </Tooltip>
-            {/* Route Workflow Service Request */}
-            <Tooltip title="Route Workflow" arrow placement="bottom">
-              <motion.div
-                className="print-iconBox"
-                whileTap={{ scale: 0.9, y: 3 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              >
+
+            <Tooltip title="Route Workflow" arrow>
+              <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }} className="print-iconBox">
                 <FaRoute className="printer-icon" />
               </motion.div>
             </Tooltip>
           </Box>
-          {/* Header Row */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              mb: 2,
-              gap: 1,
-            }}
-          >
-            <Tooltip title="Scan QR" arrow placement="bottom">
-              <motion.div
-                className="print-iconBox"
-                whileTap={{ scale: 0.9, y: 3 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              >
-                <QrCodeScannerIcon
-                  className="printer-icon"
-                  onClick={() => setShowReportsModal(true)}
-                />
+
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Tooltip title="Scan QR" arrow>
+              <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }} className="print-iconBox">
+                <QrCodeScannerIcon onClick={() => setShowReportsModal(true)} className="printer-icon" />
               </motion.div>
             </Tooltip>
 
-            <Tooltip title="Show Location" arrow placement="bottom">
-              <motion.div
-                className="print-iconBox"
-                whileTap={{ scale: 0.9, y: 3 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              >
+            <Tooltip title="Show Location" arrow>
+              <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }} className="print-iconBox">
                 <AddLocationAltIcon
-                  className="printer-icon"
                   onClick={() => {
                     setShowReportsModal(true);
                     setMap(true);
                   }}
+                  className="printer-icon"
                 />
               </motion.div>
             </Tooltip>
 
-            <Tooltip title="Print" arrow placement="bottom">
-              <motion.div
-                className="print-iconBox"
-                whileTap={{ scale: 0.9, y: 3 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              >
-                <img
-                  src={printerImage}
-                  alt="printer icon"
-                  className="printer-icon"
-                />
+            <Tooltip title="Print" arrow>
+              <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }} className="print-iconBox">
+                <img src={printerImage} alt="printer" className="printer-icon" />
               </motion.div>
             </Tooltip>
           </Box>
         </Box>
 
-        {/* Content */}
         {tabContents[activeTab]}
 
         {showReportsModal &&
@@ -282,7 +195,7 @@ const changeSR = (direction) => {
             <Pops
               Title="QR code For Service Request"
               component={<MapCom />}
-              id={id}
+              id={srId}
               show={showReportsModal}
               onHide={() => {
                 setShowReportsModal(false);
@@ -293,12 +206,8 @@ const changeSR = (direction) => {
           ) : (
             <Pops
               Title="QR code For Service Request"
-              component={
-                <QRDisplay
-                  qrUrl={`${window.location.origin}/maximo/service-request/${id}`}
-                />
-              }
-              id={id}
+              component={<QRDisplay qrUrl={`${window.location.origin}/maximo/service-request/${srId}`} />}
+              id={srId}
               show={showReportsModal}
               onHide={() => setShowReportsModal(false)}
               reportType="SR"
