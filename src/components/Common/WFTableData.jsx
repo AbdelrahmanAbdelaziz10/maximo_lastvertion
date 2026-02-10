@@ -154,23 +154,23 @@ const { srData ,tableTitle } = useSRData();
                             fontWeight: 500,
                           }}
                         >
-                          {sr.ticketid || "NULL"}
+                          {sr.ticketid }
                         </Link>
                       </TableCell>
                       <TableCell className="table-column">
-                        {sr.description || "NULL"}
+                        {sr.description }
                       </TableCell>
                       <TableCell className="table-column">
-                        {sr.exedept || "NULL"}
+                        {sr.exedept }
                       </TableCell>
                       <TableCell className="table-column">
-                        {sr.worktype || "NULL"}
+                        {sr.worktype }
                       </TableCell>
                       <TableCell className="table-column">
-                        {sr.reportedpriority || "NULL"}
+                        {sr.reportedpriority }
                       </TableCell>
                       <TableCell className="table-column">
-                        {sr.reportedby || "NULL"}
+                        {sr.reportedby }
                       </TableCell>
                       <TableCell className="table-column">
                         <span
@@ -198,7 +198,7 @@ const { srData ,tableTitle } = useSRData();
                           : "NULL"}
                       </TableCell>
                       {/*                    <TableCell className="table-column">
-{sr.statusdate || "NULL"}</TableCell> */}
+{sr.statusdate }</TableCell> */}
                       {/*                    <TableCell className="table-column">
 
                      <Button
@@ -396,7 +396,7 @@ export default WFTableData;
 //                             fontWeight: 500,
 //                           }}
 //                         >
-//                           {sr.ticketid || "NULL"}
+//                           {sr.ticketid }
 //                         </Link>
 //                       </TableCell>
 //                       <TableCell className="table-column">

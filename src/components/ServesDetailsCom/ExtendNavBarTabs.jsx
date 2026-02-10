@@ -33,11 +33,11 @@ const ExtendNavBarTabs = ({ activeTab, setActiveTab, tabs,routePage }) => {
           display: "flex",
           alignItems: "center",
           cursor: "pointer",
-          mr: 1.5,
+          mx: 2,
           "&:hover": { opacity: 0.85 },
         }}
       >
-        <ArrowBackIcon sx={{ fontSize: 20, color: "#fff", mr: 0.6 }} />
+        {/* <ArrowBackIcon sx={{ fontSize: 20, color: "#fff", mr: 0.6 }} /> */}
         <Typography
           variant="body2"
           sx={{

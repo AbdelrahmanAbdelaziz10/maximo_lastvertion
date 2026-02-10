@@ -297,11 +297,8 @@
   ],
    "WorkLogs":[
     "Record",
-    "Class",
     "Created By",
     "Date",
-    "Type",
-    "Summary",
-    "Viewable"
-  ]
+    "Summary"
+    ]
 }

@@ -183,7 +183,7 @@ useEffect(() => {
   // === Stats Data ===
   const stats = [
     {
-      label: "Total SR",
+      label: "Total",
       value: allSRData.length,
       accentColor: "#157091", // Muted green
       icon: <Assignment className="stat-icon" style={{ color: "#157091" }} />,

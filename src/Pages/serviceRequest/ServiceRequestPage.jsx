@@ -111,12 +111,14 @@ const ServiceRequestPage = () => {
 
   return (
     <div className="mb-2">
-      <ExtendNavBarTabs
+   
+   <ExtendNavBarTabs
         routePage={"service-request"}
         tabs={tabs}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
+   
 
       <Box sx={{ mt: 1, minHeight: 300 }}>
         <Box

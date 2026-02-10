@@ -33,12 +33,9 @@ export default function SRWorkLog() {
   const [workLogData, setWorkLogData] = useState([
     {
       record: "WO-371",
-      class: "WORKORDER",
       createdBy: "HELPDESK1",
       date: "06/11/2022 12:04",
-      type: "CLIENTNOTE",
       summary: "في انتشار توفر الخدمات من قبل المورد",
-      viewable: false,
     },
   ]);
   const [filters, setFilters] = useState({});
@@ -69,8 +66,9 @@ export default function SRWorkLog() {
 
   return (
     <Container fluid className="p-0">
-      <Card className="shadow-sm">
-        {/* Header with Tabs */}
+
+
+      {/* <Card className="shadow-sm">
         <Card.Header className="border-bottom  p-2 pt-0 ">
           <Nav variant="tabs" className="border-0">
             <Nav.Item>
@@ -119,7 +117,9 @@ export default function SRWorkLog() {
             </Nav.Item>
           </Nav>
         </Card.Header>
-        </Card>
+        </Card> */}
+
+
         <Card>
         {/* Table Content */}
         <Card.Body className="p-0 m">
@@ -141,10 +141,7 @@ export default function SRWorkLog() {
                 rowsPerPage={rowsPerPage}
                 filterKeys={filterKeys}
                 titleSection={
-                  activeTab === "workLog"
-                    ? staticData?.WorkLogs
-                    : staticData?.LogCommunicationLogs
-                }
+                 staticData?.WorkLogs                }
               />
 
               {/* ===== Table Body ===== */}
@@ -163,17 +160,10 @@ export default function SRWorkLog() {
                           {row.record}
                         </Box>
                       </TableCell>
-                      <TableCell>{row.class}</TableCell>
                       <TableCell>{row.createdBy}</TableCell>
                       <TableCell>{row.date}</TableCell>
-                      <TableCell>{row.type}</TableCell>
                       <TableCell>{row.summary}</TableCell>
-                      <TableCell align="center">
-                        <Checkbox
-                          checked={row.viewable}
-                          onChange={() => handleWorkLogCheckboxChange(index)}
-                        />
-                      </TableCell>
+                     
                     </TableRow>
                   ))
                 ) : activeTab === "workLog" && filteredData.length === 0 ? (

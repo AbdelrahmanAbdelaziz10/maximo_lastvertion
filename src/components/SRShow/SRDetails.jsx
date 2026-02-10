@@ -70,64 +70,44 @@ const SRDetails = ({ RowDataSr }) => {
   // Info arrays
   const UserInformation2 = [];
   const ServiceRequestDetails = [
-    { label: "Owner Group", Value: RowDataSr[0]?.OWNERGROUP || " ", Key: 1 },
     {
       label: "Details",
       Value: RowDataSr[0]?.description_longdescription || " ",
-      Key: 2,
+      Key: 1,
       type: "textbox",
     },
-    { label: "Asset", Value: RowDataSr[0]?.reportedphone || " ", Key: 3 },
-    { label: "Location", Value: RowDataSr[0]?.location || " ", Key: 4 },
-    { label: "Configuration Item", Value: RowDataSr[0]?.cinum || " ", Key: 5 },
-    {
-      label: "Target Description",
-      Value: RowDataSr[0]?.targetdesc || " ",
-      Key: 6,
-    },
-    { label: "GL Account", Value: RowDataSr[0]?.glaccount || " ", Key: 7 }, // Not Found attribute
-    { label: "Asset Site", Value: RowDataSr[0]?.assetsiteid || " ", Key: 8 },
-  ];
-  const ServiceRequestDetails2 = [
-    { label: "Classification", Value: " ", Key: 1 }, // Not Found attribute
-    { label: "Class Description", Value: " ", Key: 2 }, // Not Found attribute
-    { label: "Department", Value: RowDataSr[0]?.exedept || " ", Key: 3 },
-    { label: "Work Type", Value: RowDataSr[0]?.worktype || " ", Key: 4 },
+
+    { label: "Location", Value: RowDataSr[0]?.reportedphone || " ", Key: 2 },
+    { label: "Location Description", Value: " ", Key: 3 },
+    { label: "Asset Site", Value: RowDataSr[0]?.assetsiteid || " ", Key: 4 },
+    { label: "Classification", Value: " ", Key: 5 }, // Not Found attribute
+    { label: "Class Description", Value: " ", Key: 6 }, // Not Found attribute
+    { label: "Department", Value: RowDataSr[0]?.exedept || " ", Key: 7 },
+    { label: "Work Type", Value: RowDataSr[0]?.worktype || " ", Key: 8 },
     {
       label: "Reported Priority",
       Value: RowDataSr[0]?.reportedpriority || " ",
-      Key: 5,
+      Key: 9,
     },
     {
       label: "Internal Priority",
       Value: RowDataSr[0]?.internalpriority || " ",
-      Key: 6,
+      Key: 10,
     },
     {
       label: "Service Group ",
       Value: RowDataSr[0]?.commoditygroup || " ",
-      Key: 7,
-    }, // Not Found attribute
-    { label: "Service ", Value: RowDataSr[0]?.commodity || " ", Key: 8 }, // Not Found attribute
-    { label: "Vendor", Value: RowDataSr[0]?.vendor || " ", Key: 9 }, //  Not Found attribute
-    { label: "Site", Value: RowDataSr[0]?.siteid || " ", Key: 10 },
-    {
-      label: "Create WO Options",
-      Value: RowDataSr[0]?.createwomulti || " ",
       Key: 11,
-    },
+    }, // Not Found attribute
+    { label: "Service ", Value: RowDataSr[0]?.commodity || " ", Key: 12 }, // Not Found attribute
+    { label: "Vendor", Value: RowDataSr[0]?.vendor || " ", Key: 13 }, //  Not Found attribute
+    { label: "Site", Value: RowDataSr[0]?.siteid || " ", Key: 14 },
   ];
   const UserInformation = [
     {
       label: "Requested By",
       Value: RowDataSr[0]?.affectedperson || " ",
       Key: 1,
-      icon: true,
-    },
-    {
-      label: "Created By",
-      Value: RowDataSr[0]?.affectedperson || " ",
-      Key: 2,
       icon: true,
     },
     {
@@ -154,117 +134,70 @@ const SRDetails = ({ RowDataSr }) => {
     { label: "E-mail", Value: RowDataSr[0]?.reportedemail || " ", Key: 9 },
   ];
 
- const dates1 = [
-  {
-    label: "Reported Date",
-    Value: RowDataSr[0]?.reportdate
-      ? new Date(RowDataSr[0].reportdate).toLocaleString("en-GB", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        }).replace(",", " ")
-      : " ",
-    Key: 1,
-  },
-  {
-    label: "Requested Date",
-    Value: RowDataSr[0]?.affecteddate
-      ? new Date(RowDataSr[0].affecteddate).toLocaleString("en-GB", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        }).replace(",", " ")
-      : " ",
-    Key: 2,
-  },
-];
-
-
-  const dates2 = [
+  const dates1 = [
     {
-      label: "Target Contact",
-      Value: RowDataSr[0]?.targetcontactdate
-      ?new Date(RowDataSr[0]?.targetcontactdate).toLocaleDateString("en-GB",{
-        day:"2-digit",
-        month:"2-digit",
-        year:"numeric",
-        hour:"2-digit",
-        minute:"2-digit",
-        hour12:false,
-      }) .replace(","," ")
-      :" ",
+      label: "Reported Date",
+      Value: RowDataSr[0]?.reportdate
+        ? new Date(RowDataSr[0].reportdate)
+            .toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+            .replace(",", " ")
+        : " ",
       Key: 1,
     },
-    { label: "Target Start", Value: RowDataSr[0]?.targetstart
-      ? new Date(RowDataSr[0]?.targetstart).toLocaleDateString("en-GB",{
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }).replace(","," ")
-      : " ", Key: 2 },
+    {
+      label: "Requested Date",
+      Value: RowDataSr[0]?.affecteddate
+        ? new Date(RowDataSr[0].affecteddate)
+            .toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+            .replace(",", " ")
+        : " ",
+      Key: 2,
+    },
+    {
+      label: "Target Start",
+      Value: RowDataSr[0]?.targetstart
+        ? new Date(RowDataSr[0]?.targetstart)
+            .toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+            .replace(",", " ")
+        : " ",
+      Key: 3,
+    },
     {
       label: "Target Finish",
       Value: RowDataSr[0]?.targetfinish
-      ? new Date(RowDataSr[0]?.targetfinish).toLocaleDateString("en-GB",{
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }).replace(","," ")
-      : " ",
-      Key: 3,
-    },
-  ];
-
-  const dates3 = [
-    {
-      label: "Actual Contact",
-      Value: RowDataSr[0]?.actualcontactdate 
-      ? new Date(RowDataSr[0]?.actualcontactdate).toLocaleDateString("en-GB",{
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }).replace(","," ")
-      : " ",
-      Key: 1,
-    },
-    { label: "Actual Start", Value: RowDataSr[0]?.actualstart 
-      ? new Date(RowDataSr[0]?.actualstart).toLocaleDateString("en-GB",{
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }).replace(","," ")
-      : " ", Key: 2 },
-    {
-      label: "Actual Finish",
-      Value: RowDataSr[0]?.actualfinish 
-      ? new Date(RowDataSr[0]?.actualfinish).toLocaleDateString("en-GB",{
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }).replace(","," ")
-      : " ",
-      Key: 3,
+        ? new Date(RowDataSr[0]?.targetfinish)
+            .toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+            .replace(",", " ")
+        : " ",
+      Key: 4,
     },
   ];
 
@@ -296,7 +229,7 @@ const SRDetails = ({ RowDataSr }) => {
                 />
               </Box>
             </Col>
-            <Col xs={12} md={6} lg={4}>
+            <Col xs={12} md={6} lg={7}>
               <Box display="flex" alignItems="center" gap={1.5}>
                 <Typography className="input-text">Summary:</Typography>
                 <Input
@@ -307,17 +240,7 @@ const SRDetails = ({ RowDataSr }) => {
                 />
               </Box>
             </Col>
-            <Col xs={12} md={6} lg={3}>
-              <Box display="flex" alignItems="center" gap={1.5}>
-                <Typography className="input-text">Owner:</Typography>
-                <Input
-                  fullWidth
-                  value={RowDataSr[0]?.owner || " "}
-                  disableUnderline
-                  className="input-general"
-                />
-              </Box>
-            </Col>
+
             <Col xs={12} md={6} lg={2}>
               <Box display="flex" alignItems="center" gap={1.5}>
                 <Typography className="input-text">Status:</Typography>
@@ -335,19 +258,19 @@ const SRDetails = ({ RowDataSr }) => {
 
       {/* ===== Section 1: Service Request Details ===== */}
       <Row>
-        <Col xs={12} md={8}>
+        <Col xs={12} md={6}>
           <AnimatedSection
             title="Service Request Details"
             isOpen={serviceRequestDetails}
             onToggle={toggleSRD}
           >
             <Row className="px-1 py-0 stats-section justify-content-center">
-              <Col xs={12} md={6}>
+              <Col xs={12} md={12}>
                 <SRSectionDetails UserInformation={ServiceRequestDetails} />
               </Col>
-              <Col xs={12} md={6}>
+              {/* <Col xs={12} md={6}>
                 <SRSectionDetails UserInformation={ServiceRequestDetails2} />
-              </Col>
+              </Col> */}
               {/* <Col xs={12} md={3}>
             <SRSectionDetails UserInformation={ServiceRequestDetails2} />
           </Col> */}
@@ -356,7 +279,8 @@ const SRDetails = ({ RowDataSr }) => {
         </Col>
 
         {/* ===== Section 2: User Information ===== */}
-        <Col xs={12} md={4}>
+                <Col xs={12} md={6}>
+        <Col xs={12} md={12}>
           <AnimatedSection
             title="User Information"
             isOpen={isUserInfoOpen}
@@ -373,34 +297,27 @@ const SRDetails = ({ RowDataSr }) => {
             </Row>
           </AnimatedSection>
         </Col>
-      </Row>
-
-      {/* ===== Section 2: User Information ===== */}
-      {/* <AnimatedSection
-        title="User Information"
-        isOpen={isUserInfoOpen}
-        onToggle={toggleUserInfo}
-      >
-        <Row className="px-4 stats-section justify-content-center">
-          <Col xs={12} md={6}>
-            <SRSectionDetails
-              UserInformation={UserInformation2}
-              icons={icons}
-              DetailsList={DetailsList}
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <SRSectionDetails
-              UserInformation={UserInformation}
-              icons={icons}
-              DetailsList={DetailsList}
-            />
-          </Col>
-        </Row>
-      </AnimatedSection> */}
 
       {/* ===== Section 3: Dates ===== */}
-      <AnimatedSection
+
+        <Col xs={12} md={12}>
+             <AnimatedSection
+        title="Dates"
+        isOpen={isDatesOpen}
+        onToggle={toggleDates}
+      >
+            <Row className="px-2 stats-section justify-content-center">
+              <Col xs={12} md={12}>
+            <SRSectionDetails UserInformation={dates1} />
+          </Col>
+            </Row>
+          </AnimatedSection>
+        </Col>
+                </Col >
+
+      </Row>
+
+      {/* <AnimatedSection
         title="Dates"
         isOpen={isDatesOpen}
         onToggle={toggleDates}
@@ -409,14 +326,8 @@ const SRDetails = ({ RowDataSr }) => {
           <Col xs={12} md={4}>
             <SRSectionDetails UserInformation={dates1} />
           </Col>
-          <Col xs={12} md={4}>
-            <SRSectionDetails UserInformation={dates2} />
-          </Col>
-          <Col xs={12} md={4}>
-            <SRSectionDetails UserInformation={dates3} />
-          </Col>
         </Row>
-      </AnimatedSection>
+      </AnimatedSection> */}
 
       {/* ===== Section 4: Attachments ===== */}
       <AnimatedSection
@@ -430,15 +341,6 @@ const SRDetails = ({ RowDataSr }) => {
           document={document}
         />
       </AnimatedSection>
-
-      {/* ===== Section 4: Attachments ===== */}
-      {/* <AnimatedSection
-        title="QR Code"
-        isOpen={isQROpen}
-        onToggle={toggleQRCode}
-      >
-        <QRDisplay />
-      </AnimatedSection> */}
     </>
   );
 };
