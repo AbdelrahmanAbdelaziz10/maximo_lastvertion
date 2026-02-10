@@ -281,10 +281,8 @@
    "SRRelatedWorkOrder":[
     "Work Order",
     "Description",
-    "Class",
     "Status",
-    "Relationship",
-      "Delete"
+    "Relationship"
 
   ],
   "LogCommunicationLogs":[

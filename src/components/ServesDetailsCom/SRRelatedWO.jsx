@@ -141,11 +141,11 @@ const SRRelatedWO = ({ relatedData }) => {
                       </TableCell>
 
                       <TableCell>{row.description}</TableCell>
-                      <TableCell>{row.class}</TableCell>
+                      {/* <TableCell>{row.class}</TableCell> */}
                       <TableCell>{row.status}</TableCell>
                       <TableCell>{row.relationship}</TableCell>
 
-                      <TableCell align="center">
+                      {/* <TableCell align="center">
                         <IconButton
                           size="small"
                           color="error"
@@ -155,7 +155,7 @@ const SRRelatedWO = ({ relatedData }) => {
                         >
                           <Trash2 size={18} />
                         </IconButton>
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   ))
                 )}
@@ -167,13 +167,13 @@ const SRRelatedWO = ({ relatedData }) => {
         {/* ===== FOOTER ===== */}
         <Card.Footer className="bg-white border-0 py-3">
           <div className="d-flex justify-content-end gap-3">
-            <Button
+            {/* <Button
               variant="outline-primary"
               size="sm"
               className="custom-btn-outline"
             >
               Select Ticket
-            </Button>
+            </Button> */}
 
             <Button size="sm" className="new-fancy-row-btn">
               New Row

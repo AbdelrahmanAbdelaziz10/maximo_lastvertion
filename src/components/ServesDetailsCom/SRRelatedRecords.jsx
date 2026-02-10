@@ -90,7 +90,7 @@ const SRRelatedRecords = ({ RowDataSr, Id }) => {
       </Card>
 
       {/* ===== Section: Related Tickets ===== */}
-      <SRRelatedTickets />
+      {/* <SRRelatedTickets /> */}
 
       {/* ===== Section: Related Work Orders ===== */}
       <SRRelatedWO relatedData={relatedWO} />
