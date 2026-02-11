@@ -66,10 +66,13 @@ const SRSectionDetails = ({
     setSelectValueOpen(false);
     setCurrentField(null);
   };
-  const handleDateChange = (val, item, idx) => {
-  console.log(val);
-  // هنا حط update للـ state أو الجدول حسب عندك
+ 
+  const handleDateChange = (val, item) => {
+  if (onFieldUpdate) {
+    onFieldUpdate(item.Key, val);
+  }
 };
+
 
 
   const renderIcon = (iconType, item, idx) => {

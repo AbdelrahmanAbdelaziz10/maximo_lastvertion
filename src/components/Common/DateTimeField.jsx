@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Box, IconButton, TextField } from "@mui/material";
+import React, { useRef, useState } from "react";
+import { Box, IconButton } from "@mui/material";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { BsCalendar2DateFill } from "react-icons/bs";
@@ -7,10 +7,11 @@ import dayjs from "dayjs";
 
 const DateTimeField = ({ value, onChange, readOnly = false }) => {
   const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1, position: "relative" }}>
         
        <DateTimePicker
   open={open}
@@ -23,19 +24,24 @@ const DateTimeField = ({ value, onChange, readOnly = false }) => {
   format="YYYY-MM-DD HH:mm"
   enableAccessibleFieldDOMStructure={false}
   slots={{
-    textField: TextField,
+    textField: () => null,
   }}
   slotProps={{
-    textField: {
-      fullWidth: true,
-      InputProps: { readOnly: false },
+    popper: {
+      anchorEl: anchorRef.current,
+      placement: "bottom-start",
+      disablePortal: false, // 👈 هنا تضيفها
     },
   }}
 />
 
 
         {!readOnly && (
-          <IconButton size="small" onClick={() => setOpen(true)}>
+          <IconButton
+            size="small"
+            ref={anchorRef}
+            onClick={() => setOpen(true)}
+          >
             <BsCalendar2DateFill
               style={{
                 color: "var(--srExtend-navBar2)",
