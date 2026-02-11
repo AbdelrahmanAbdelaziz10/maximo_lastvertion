@@ -100,7 +100,12 @@ const SRDetails = ({ RowDataSr }) => {
       Key: 7,
       icon: "search",
     },
-    { label: "Work Type", Value: RowDataSr[0]?.worktype || " ", Key: 8 },
+    {
+      label: "Work Type",
+      Value: RowDataSr[0]?.worktype || " ",
+      Key: 8,
+      icon: "search",
+    },
     {
       label: "Reported Priority",
       Value: RowDataSr[0]?.reportedpriority || " ",

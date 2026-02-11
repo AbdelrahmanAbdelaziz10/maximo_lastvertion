@@ -6,15 +6,18 @@ import {
   Input,
   CardContent,
   Card,
-  TextField,
+  IconButton,
   TextareaAutosize,
 } from "@mui/material";
 import AnimatedSection from "../ServesDetailsCom/AnimatedSection";
 import CreateAttachment from "./CreateAttachment";
 import config from "../../../Data/config.json";
+import SearchIcon from "@mui/icons-material/Search";
+import SelectValue from "./SelectValue";
 
 const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
   // ====== State ======
+  const [currentField, setCurrentField] = useState(null);
 
   const [sections, setSections] = useState({
     serviceRequestDetails: true,
@@ -23,7 +26,17 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
     attachments: true,
   });
 
+  const handleSelectValue = (value) => {
+    setSelectValueOpen(false);
+    setCurrentField(null);
+  };
   // console.log("data2:",formData)
+  const [selectValueOpen, setSelectValueOpen] = useState(false);
+
+  const handelSelectValue = () => {
+    setSelectValueOpen(true);
+  };
+
 
   // ====== Handlers ======
   const toggleSection = (key) => {
@@ -46,6 +59,30 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
       [realKey]: value,
     }));
   };
+
+
+    const renderIcon = (iconType, item, idx) => {
+      switch (iconType) {
+        case "search":
+          return (
+            <IconButton size="small" onClick={() => handelSelectValue()}>
+              <SearchIcon fontSize="small" />
+            </IconButton>
+          );
+  
+    //    case "time":
+    // return (
+    //   <DateTimeField
+    //     value={item?.value}
+    //     onChange={(val) => handleDateChange(val, item, idx)}
+    //   />
+    // );
+  
+  
+        default:
+          return null;
+      }
+    };
 
   // ====== UI ======
   return (
@@ -131,7 +168,7 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
                   <Box
                     sx={{
                       display: "grid",
-                      gridTemplateColumns: "135px 1fr",
+                      gridTemplateColumns: "135px 1fr auto",
                       alignItems: "center",
                       marginBottom: "1rem",
                     }}
@@ -161,7 +198,11 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
                         className="input-general "
                         disableUnderline
                       />
+
+
                     )}
+                                                            {renderIcon(item.icon, item, idx)}
+
                   </Box>
                 ))}
               </Col>
@@ -311,6 +352,17 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
           document={document}
         />
       </AnimatedSection>
+
+
+
+
+      {/* Select Value Modal */}
+              <SelectValue
+                open={selectValueOpen}
+                field={currentField}
+                onClose={() => setSelectValueOpen(false)}
+                onSelectValue={handleSelectValue}
+              />
     </>
   );
 };
