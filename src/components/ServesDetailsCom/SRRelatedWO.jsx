@@ -22,7 +22,7 @@ import "../../Style/SpecificationsTable.css";
 const filterKeys = [
   "recordkey",
   "description",
-  "class",
+  // "class",
   "status",
   "relationship",
 ];
@@ -92,7 +92,11 @@ const SRRelatedWO = ({ relatedData }) => {
       <Card className="border-0 shadow-sm rounded-3 overflow-hidden">
         <Card.Body className="p-0">
           <TableContainer>
-            <Table stickyHeader size="small">
+            <Table stickyHeader size="small"
+            sx={{
+              overflow:"hidden"
+            }}
+            >
               {/* ===== Header ===== */}
               <TableHeader
                 ColorTable="var(--srTotal-header)"

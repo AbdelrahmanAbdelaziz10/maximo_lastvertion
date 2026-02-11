@@ -77,17 +77,35 @@ const SRDetails = ({ RowDataSr }) => {
       type: "textbox",
     },
 
-    { label: "Location", Value: RowDataSr[0]?.reportedphone || " ", Key: 2 },
+    {
+      label: "Assets",
+      Value: RowDataSr[0]?.assetnum || " ",
+      Key: 2,
+      icon: "search",
+    },
+    { label: "Assets Description", Value: " ", Key: 3 },
+    {
+      label: "Location",
+      Value: RowDataSr[0]?.location || " ",
+      Key: 2,
+      icon: "search",
+    },
     { label: "Location Description", Value: " ", Key: 3 },
     { label: "Asset Site", Value: RowDataSr[0]?.assetsiteid || " ", Key: 4 },
     { label: "Classification", Value: " ", Key: 5 }, // Not Found attribute
     { label: "Class Description", Value: " ", Key: 6 }, // Not Found attribute
-    { label: "Department", Value: RowDataSr[0]?.exedept || " ", Key: 7 },
+    {
+      label: "Department",
+      Value: RowDataSr[0]?.exedept || " ",
+      Key: 7,
+      icon: "search",
+    },
     { label: "Work Type", Value: RowDataSr[0]?.worktype || " ", Key: 8 },
     {
       label: "Reported Priority",
       Value: RowDataSr[0]?.reportedpriority || " ",
       Key: 9,
+      icon: "search",
     },
     {
       label: "Internal Priority",
@@ -108,13 +126,13 @@ const SRDetails = ({ RowDataSr }) => {
       label: "Requested By",
       Value: RowDataSr[0]?.affectedperson || " ",
       Key: 1,
-      icon: true,
+      icon: "search",
     },
     {
       label: "Name",
       Value: RowDataSr[0]?.affectedperson || " ",
       Key: 3,
-      icon: true,
+      icon: "search",
     },
     { label: "Phone", Value: RowDataSr[0]?.affectedphone || " ", Key: 4 },
     { label: "E-mail", Value: RowDataSr[0]?.affectedemail || " ", Key: 5 },
@@ -122,13 +140,13 @@ const SRDetails = ({ RowDataSr }) => {
       label: "Reported By",
       Value: RowDataSr[0]?.reportedbyname || " ",
       Key: 6,
-      icon: true,
+      icon: "search",
     },
     {
       label: "Name",
       Value: RowDataSr[0]?.reportedbyname || " ",
       Key: 7,
-      icon: true,
+      icon: "search",
     },
     { label: "Phone", Value: RowDataSr[0]?.affectedphone || "", Key: 8 },
     { label: "E-mail", Value: RowDataSr[0]?.reportedemail || " ", Key: 9 },
@@ -150,6 +168,7 @@ const SRDetails = ({ RowDataSr }) => {
             .replace(",", " ")
         : " ",
       Key: 1,
+      icon: "time",
     },
     {
       label: "Requested Date",
@@ -166,6 +185,7 @@ const SRDetails = ({ RowDataSr }) => {
             .replace(",", " ")
         : " ",
       Key: 2,
+      icon: "time",
     },
     {
       label: "Target Start",
@@ -182,6 +202,7 @@ const SRDetails = ({ RowDataSr }) => {
             .replace(",", " ")
         : " ",
       Key: 3,
+      icon: "time",
     },
     {
       label: "Target Finish",
@@ -198,6 +219,7 @@ const SRDetails = ({ RowDataSr }) => {
             .replace(",", " ")
         : " ",
       Key: 4,
+      icon: "time",
     },
   ];
 
@@ -279,42 +301,41 @@ const SRDetails = ({ RowDataSr }) => {
         </Col>
 
         {/* ===== Section 2: User Information ===== */}
-                <Col xs={12} md={6}>
-        <Col xs={12} md={12}>
-          <AnimatedSection
-            title="User Information"
-            isOpen={isUserInfoOpen}
-            onToggle={toggleUserInfo}
-          >
-            <Row className="px-2 stats-section justify-content-center">
-              <Col xs={12} md={12}>
-                <SRSectionDetails
-                  UserInformation={UserInformation}
-                  icons={icons}
-                  DetailsList={DetailsList}
-                />
-              </Col>
-            </Row>
-          </AnimatedSection>
-        </Col>
-
-      {/* ===== Section 3: Dates ===== */}
-
-        <Col xs={12} md={12}>
-             <AnimatedSection
-        title="Dates"
-        isOpen={isDatesOpen}
-        onToggle={toggleDates}
-      >
-            <Row className="px-2 stats-section justify-content-center">
-              <Col xs={12} md={12}>
-            <SRSectionDetails UserInformation={dates1} />
+        <Col xs={12} md={6}>
+          <Col xs={12} md={12}>
+            <AnimatedSection
+              title="User Information"
+              isOpen={isUserInfoOpen}
+              onToggle={toggleUserInfo}
+            >
+              <Row className="px-2 stats-section justify-content-center">
+                <Col xs={12} md={12}>
+                  <SRSectionDetails
+                    UserInformation={UserInformation}
+                    icons={icons}
+                    DetailsList={DetailsList}
+                  />
+                </Col>
+              </Row>
+            </AnimatedSection>
           </Col>
-            </Row>
-          </AnimatedSection>
-        </Col>
-                </Col >
 
+          {/* ===== Section 3: Dates ===== */}
+
+          <Col xs={12} md={12}>
+            <AnimatedSection
+              title="Dates"
+              isOpen={isDatesOpen}
+              onToggle={toggleDates}
+            >
+              <Row className="px-2 stats-section justify-content-center">
+                <Col xs={12} md={12}>
+                  <SRSectionDetails UserInformation={dates1} />
+                </Col>
+              </Row>
+            </AnimatedSection>
+          </Col>
+        </Col>
       </Row>
 
       {/* <AnimatedSection

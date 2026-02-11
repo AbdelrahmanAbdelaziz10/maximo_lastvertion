@@ -21,9 +21,7 @@ import {
 
 const filterKeys = [
   "Originating",
-  "ISGlobalIssue?",
   "CreatedBy",
-  "To",
   "Date",
   "Subject",
 ];
@@ -124,7 +122,9 @@ export default function SRWorkLog() {
         {/* Table Content */}
         <Card.Body className="p-0 m">
           <TableContainer component={Paper}>
-            <Table stickyHeader>
+            <Table stickyHeader sx={{
+              overflow:"hidden"
+            }}>
               {/* ===== Merged Header ===== */}
               <TableHeader
                 ColorTable="var(--srTotal-header)"

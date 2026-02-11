@@ -1,6 +1,7 @@
 import { Box, Card, CardContent, Input, Typography } from "@mui/material";
 import { Col, Row } from "react-bootstrap";
 import CreateSRWorkLog from "./CreateSRWorkLog";
+import SRWorkLog from "../ServesDetailsCom/SRWorkLog";
 
 const CreateSRLog = () => {
   return (
@@ -95,7 +96,8 @@ const CreateSRLog = () => {
         </CardContent>
       </Card>
       {/* ===== Section 1: Service Request Details ===== */}
-      <CreateSRWorkLog />
+      {/* <CreateSRWorkLog /> */}
+      <SRWorkLog />
     </>
   );
 };

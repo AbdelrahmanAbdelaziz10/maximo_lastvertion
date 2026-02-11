@@ -13,8 +13,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import PreviewIcon from "@mui/icons-material/Preview";
 import SelectValue from "../Create SR/SelectValue";
+import { BsCalendar2DateFill } from "react-icons/bs";
+import DateTimeField from "../Common/DateTimeField";
 
-// 🔹 Helper function: remove HTML tags
+
 const stripHtml = (html) => {
   if (!html) return "";
   const doc = new DOMParser().parseFromString(html, "text/html");
@@ -45,6 +47,10 @@ const SRSectionDetails = ({
     setActiveIndex((prev) => (prev === index ? null : index));
   };
 
+  const handelSelectValue = () => {
+    setSelectValueOpen(true);
+  };
+
   const handleOptionClick = (option, field) => {
     if (option === "Select Value") {
       setCurrentField(field);
@@ -59,6 +65,34 @@ const SRSectionDetails = ({
     }
     setSelectValueOpen(false);
     setCurrentField(null);
+  };
+  const handleDateChange = (val, item, idx) => {
+  console.log(val);
+  // هنا حط update للـ state أو الجدول حسب عندك
+};
+
+
+  const renderIcon = (iconType, item, idx) => {
+    switch (iconType) {
+      case "search":
+        return (
+          <IconButton size="small" onClick={() => handelSelectValue()}>
+            <SearchIcon fontSize="small" />
+          </IconButton>
+        );
+
+     case "time":
+  return (
+    <DateTimeField
+      value={item?.value}
+      onChange={(val) => handleDateChange(val, item, idx)}
+    />
+  );
+
+
+      default:
+        return null;
+    }
   };
 
   return (
@@ -107,21 +141,25 @@ const SRSectionDetails = ({
                     />
                   )}
 
-                  {item.icon && (
+                  {/* {item.icon && (
                     <IconButton
                       size="small"
-                      onClick={() => handleIconClick(idx)}
+                      // onClick={() =>{ handleIconClick(idx)}}
+                      onClick={()=>handelSelectValue()}
                       sx={{
                         ml: 0.5,
                         color: isActive ? "primary.main" : "action.active",
                       }}
+                      
                     >
                       <SearchIcon fontSize="small" />
                     </IconButton>
-                  )}
+                  )} */}
+
+                  {renderIcon(item.icon, item, idx)}
                 </Box>
 
-                {/* Dropdown */}
+                {/* Dropdown for show select value */}
                 {isActive && (
                   <Paper
                     elevation={4}

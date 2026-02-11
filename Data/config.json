@@ -6,18 +6,13 @@
     "Map"
   ],
 
-  "ServiceRequestDetails": {
-    "left": [
-      { "key": "DESCRIPTION", "label": "Description" },
+  "ServiceRequestDetails": [
       { "label": "Details", "key": "details", "type": "textbox" },
       { "label": "Asset", "key": "asset" },
+      { "label": "Asset Description", "key": "assetDescription" },
       { "key": "LOCATION", "label": "Location" },
-      { "label": "Configuration Item", "key": "configItem" },
-      { "label": "Target Description", "key": "targetDescription" },
-      { "label": "GL Account", "key": "glAccount" },
-      { "label": "Asset Site", "key": "assetSite" }
-    ],
-    "right": [
+      { "label": "Location Description", "key": "locationDescription" },
+      { "label": "Asset Site", "key": "assetSite" },
       { "label": "Classification", "key": "classification" },
       { "label": "Class Description", "key": "classDescription" },
       { "key": "EXEDEPT", "label": "Department" },
@@ -27,15 +22,11 @@
       { "label": "Service Group", "key": "serviceGroup" },
       { "label": "Service", "key": "service" },
       { "label": "Vendor", "key": "vendor" },
-      { "label": "Site", "key": "site" },
-      { "label": "WO Options", "key": "createWOOptions" }
-    ]
-  },
-
+      { "label": "Site", "key": "site" }
+  ],
   "UserInformation": {
     "left": [
       { "label": "Requested By", "key": "requestedBy" },
-      { "label": "Created By", "key": "createdBy" },
       { "label": "Name", "key": "name" },
       { "label": "Phone", "key": "phone" },
       { "label": "E-mail", "key": "email" }
@@ -49,7 +40,6 @@
   },
   "UserInformationAll": [
       { "label": "Requested By", "key": "requestedBy" },
-      { "label": "Created By", "key": "createdBy" },
       { "label": "Name", "key": "name" },
       { "label": "Phone", "key": "phone" },
       { "label": "E-mail", "key": "email" },
@@ -62,24 +52,14 @@
   "DatesGroups": [
     [
       { "label": "Reported Date", "key": "reportedDate" },
-      { "label": "Created By", "key": "createdByDate" }
-    ],
-    [
-      { "label": "Target Contact", "key": "targetContact" },
+      { "label": "Requested Date", "key": "requestedDate" },
       { "label": "Target Start", "key": "targetStart" },
       { "label": "Target Finish", "key": "targetFinish" }
-    ],
-    [
-      { "label": "Actual Contact", "key": "actualContact" },
-      { "label": "Actual Start", "key": "actualStart" },
-      { "label": "Actual Finish", "key": "actualFinish" }
     ]
   ],
 
   "DetailsList": [
-    { "title": "Select Value", "icon": "search" },
-    { "title": "Go To People", "icon": "link" },
-    { "title": "View Tickets and WOs", "icon": "preview" }
+    { "title": "Select Value", "icon": "search" }
   ],
   "tableData": [
     {

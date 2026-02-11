@@ -73,20 +73,20 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
               </Box>
             </Col>
 
-            <Col xs={12} md={6} lg={3}>
+            <Col xs={12} md={6} lg={6}>
               <Box display="flex" alignItems="center" gap={1.5}>
-                <Typography className="input-text">Owner:</Typography>
+                <Typography className="input-text">Description:</Typography>
                 <Input
                   fullWidth
-                  value={formData.OWNER}
-                  onChange={(e) => handleChange("OWNER", e.target.value)}
+                  value={formData.DESCRIPTION || ""}
+                  onChange={(e) => handleChange("DESCRIPTION", e.target.value)}
                   className="input-general"
                   disableUnderline
                 />
               </Box>
             </Col>
 
-            <Col xs={12} md={6} lg={3}>
+            {/* <Col xs={12} md={6} lg={3}>
               <Box display="flex" alignItems="center" gap={1.5}>
                 <Typography className="input-text">Owner Group:</Typography>
                 <Input
@@ -97,9 +97,9 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
                   disableUnderline
                 />
               </Box>
-            </Col>
+            </Col> */}
 
-            <Col xs={12} md={6} lg={2}>
+            <Col xs={12} md={6} lg={3}>
               <Box display="flex" alignItems="center" gap={1.5}>
                 <Typography className="input-text">Status:</Typography>
                 <Input
@@ -116,7 +116,7 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
         </CardContent>
       </Card>
       <Row>
-        <Col xs={12} md={8}>
+        <Col xs={12} md={6}>
           {/* ===== Service Request Details ===== */}
           <AnimatedSection
             title="Service Request Details"
@@ -124,10 +124,10 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
             onToggle={() => toggleSection("serviceRequestDetails")}
           >
             <Row className="px-1 stats-section justify-content-center">
-              <Col xs={12} md={6}>
+              <Col xs={12} md={12}>
                 {/* ========== LEFT SECTION ========== */}
 
-                {config?.ServiceRequestDetails.left?.map((item, idx) => (
+                {config?.ServiceRequestDetails?.map((item, idx) => (
                   <Box
                     sx={{
                       display: "grid",
@@ -166,10 +166,9 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
                 ))}
               </Col>
 
-              <Col xs={12} md={6}>
-                {/* ========== RIGHT SECTION ========== */}
+              {/* <Col xs={12} md={6}>
 
-                {config?.ServiceRequestDetails.right?.map((item, idx) => (
+                {config?.ServiceRequestDetails?.map((item, idx) => (
                   <Box
                     key={idx}
                     sx={{
@@ -179,7 +178,6 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
                       marginBottom: "1rem",
                     }}
                   >
-                    {/* Label */}
                     <Typography className="input-text">
                       {item.label}:
                     </Typography>
@@ -195,43 +193,80 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
                     />
                   </Box>
                 ))}
-              </Col>
+              </Col> */}
             </Row>
           </AnimatedSection>
         </Col>
         {/* ===== User Information ===== */}
-        <Col xs={12} md={4}>
-          <AnimatedSection
-            title="User Information"
-            isOpen={sections.userInfo}
-            onToggle={() => toggleSection("userInfo")}
-          >
-            {config?.UserInformationAll?.map((item) => (
-              <Box
-                key={item.key}
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns: "110px 1fr",
-                  alignItems: "center",
-                  marginBottom: "1rem",
-                }}
-              >
-                {/* Label */}
-                <Typography className="input-text">{item.label}:</Typography>
-                <Input
-                  fullWidth
-                  value={formData[item.key] || ""}
-                  onChange={(e) => handleChange(item.key, e.target.value)}
-                  className="input-general"
-                  disableUnderline
-                />
-              </Box>
-            ))}
-          </AnimatedSection>
+        <Col xs={12} md={6}>
+          <Col xs={12} md={12}>
+            <AnimatedSection
+              title="User Information"
+              isOpen={sections.userInfo}
+              onToggle={() => toggleSection("userInfo")}
+            >
+              {config?.UserInformationAll?.map((item) => (
+                <Box
+                  key={item.key}
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "110px 1fr",
+                    alignItems: "center",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  {/* Label */}
+                  <Typography className="input-text">{item.label}:</Typography>
+                  <Input
+                    fullWidth
+                    value={formData[item.key] || ""}
+                    onChange={(e) => handleChange(item.key, e.target.value)}
+                    className="input-general"
+                    disableUnderline
+                  />
+                </Box>
+              ))}
+            </AnimatedSection>
+          </Col>
+          <Col xs={12} md={12}>
+            <AnimatedSection
+              title="Dates"
+              isOpen={sections.dates}
+              onToggle={() => toggleSection("dates")}
+            >
+              {config?.DatesGroups?.map((group, colIdx) => (
+                <Col xs={12} md={12} key={colIdx}>
+                  {group.map((item, idx) => (
+                    <Box
+                      key={idx}
+                      sx={{
+                        display: "grid",
+                        gridTemplateColumns: "115px 1fr",
+                        alignItems: "center",
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      {/* Label */}
+                      <Typography className="input-text">
+                        {item.label}:
+                      </Typography>
+                      <Input
+                        fullWidth
+                        value={formData[item.key] || ""}
+                        onChange={(e) => handleChange(item.key, e.target.value)}
+                        className="input-general"
+                        disableUnderline
+                      />
+                    </Box>
+                  ))}
+                </Col>
+              ))}
+            </AnimatedSection>
+          </Col>
         </Col>
       </Row>
       {/* ===== Dates ===== */}
-      <AnimatedSection
+      {/* <AnimatedSection
         title="Dates"
         isOpen={sections.dates}
         onToggle={() => toggleSection("dates")}
@@ -249,7 +284,6 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
                     marginBottom: "1rem",
                   }}
                 >
-                  {/* Label */}
                   <Typography className="input-text">{item.label}:</Typography>
                   <Input
                     fullWidth
@@ -263,7 +297,7 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
             </Col>
           ))}
         </Row>
-      </AnimatedSection>
+      </AnimatedSection> */}
 
       {/* ===== Attachments ===== */}
       <AnimatedSection

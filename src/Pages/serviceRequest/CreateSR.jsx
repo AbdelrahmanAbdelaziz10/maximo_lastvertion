@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress, Tooltip } from "@mui/material";
 import ExtendNavBarTabs from "../../components/ServesDetailsCom/ExtendNavBarTabs";
 import CreateSRTable from "../../components/Create SR/CreateSRTable";
 import CreateSRAddress from "../../components/Create SR/CreateSRAddress";
@@ -12,12 +12,21 @@ import SRMap from "../../components/ServesDetailsCom/SRMap";
 import QRDisplay from "../../components/QRDisplay";
 import { useSidebar } from "../../components/Context/SidebarContext";
 import config from "../../../Data/config.json";
+import { IoMdCreate } from "react-icons/io";
+import { Save } from "@mui/icons-material";
+import { FaRoute } from "react-icons/fa6";
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+import printerImage from "../../assets/printer-icon.png";
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 
 const CreateSR = () => {
   // ===== URL Params =====
   const { id } = useParams();
 
   // ===== Sidebar Context =====
+  const [showReportsModal, setShowReportsModal] = useState(false);
+  const [map, setMap] = useState(false);
 
 
   // ===== Tabs =====
@@ -123,7 +132,41 @@ const CreateSR = () => {
         routePage={"service-request"}
       />
 
+<Box
+          sx={{
+            display: "flex",
+            justifyContent: "end",
+            my: 2,
+            gap: 1,
+          }}
+        >
+
+          <Box sx={{ display: "flex", gap: 1 }}>
+
+            <Tooltip title="Show Location" arrow>
+              <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }} className="print-iconBox">
+                <AddLocationAltIcon
+                  onClick={() => {
+                    setShowReportsModal(true);
+                    setMap(true);
+                  }}
+                  className="printer-icon"
+                />
+              </motion.div>
+            </Tooltip>
+  <Tooltip title="Create SR" arrow
+            onClick={handleCreateSR}
+  >
+              <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }} className="print-iconBox">
+                <MedicalServicesIcon className="printer-icon" />
+              </motion.div>
+            </Tooltip>
+          </Box>
+        </Box>
+
+
       <Box sx={{ mt: 3, position: "relative", minHeight: 300 }}>
+        
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -152,7 +195,7 @@ const CreateSR = () => {
       </Box>
 
       {/* ===== Floating Create Button ===== */}
-      <Box
+      {/* <Box
         sx={{
           position: "fixed",
           bottom: 30,
@@ -187,7 +230,7 @@ const CreateSR = () => {
             "Create Service Request"
           )}
         </Button>
-      </Box>
+      </Box> */}
     </div>
   );
 };
