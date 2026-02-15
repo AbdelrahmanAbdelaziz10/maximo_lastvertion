@@ -1,12 +1,22 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState, useEffect } from "react";
 
 const SRDataContext = createContext(undefined);
 
 export const SRDataProvider = ({ children }) => {
   const [srData, setSrData] = useState([]);
   const [tableTitle, setTableTitle] = useState("");
-  console.log("context Data:",srData)
-    console.log("table Title Data:",tableTitle)
+
+  // ✅ اقرأ أول قيمة من localStorage
+  const [currentSrId, setCurrentSrId] = useState(() => {
+    return localStorage.getItem("srId") || null;
+  });
+
+  // ✅ أي تغيير يتخزن في localStorage
+  useEffect(() => {
+    if (currentSrId) {
+      localStorage.setItem("srId", currentSrId);
+    }
+  }, [currentSrId]);
 
   const value = useMemo(
     () => ({
@@ -14,8 +24,10 @@ export const SRDataProvider = ({ children }) => {
       setSrData,
       tableTitle,
       setTableTitle,
+      currentSrId,
+      setCurrentSrId,
     }),
-    [srData, tableTitle]
+    [srData, tableTitle, currentSrId]
   );
 
   return (

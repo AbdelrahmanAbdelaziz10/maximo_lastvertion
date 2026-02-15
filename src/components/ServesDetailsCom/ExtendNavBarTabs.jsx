@@ -28,7 +28,8 @@ const ExtendNavBarTabs = ({ activeTab, setActiveTab, tabs,routePage }) => {
     >
       {/* Back Button */}
       <Box
-        onClick={() => navigate(`/${routePage}`)}
+        onClick={() => { navigate(`/${routePage}`); localStorage.removeItem("srId");
+}}
         sx={{
           display: "flex",
           alignItems: "center",

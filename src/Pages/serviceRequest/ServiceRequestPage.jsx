@@ -31,9 +31,13 @@ const tabs = ["Service Request", "Related Records", "Log"];
 const getTicketId = (item) => item?.ticketid || item?.sr?.[0]?.ticketid || null;
 
 const ServiceRequestPage = () => {
-  const { srData } = useSRData();
-  const { id } = useParams();
-  const [srId, setSrId] = useState(null);
+  // const { srData } = useSRData();
+  // const { id } = useParams();
+  // const [srId, setSrId] = useState(null);
+  // const [srId, setSrId] = useState(null);
+const { srData, currentSrId: srId, setCurrentSrId } = useSRData();
+const { id } = useParams();
+
   const navigate = useNavigate();
   const { username } = useAuth();
   const [userName, setUserName] = useState("");
@@ -54,21 +58,34 @@ const ServiceRequestPage = () => {
   }, []);
 
   // ✅ تحديد SR ID من context أو URL
-  useEffect(() => {
-    if (!srData?.length) return;
+useEffect(() => {
+  if (!srData?.length) return;
 
+  // لو فيه ID في URL
+  if (id) {
     const exists = srData.find((item) => getTicketId(item) === id);
 
     if (exists) {
-      setSrId(getTicketId(exists));
-    } else {
-      const firstId = getTicketId(srData[0]);
-      if (!firstId) return;
-
-      setSrId(firstId);
-      navigate(`/service-request/${firstId}`, { replace: true });
+      setCurrentSrId(id);
+      return;
     }
-  }, [id, srData, navigate]);
+  }
+
+  // لو مفيش في URL خالص → خد من Context (localStorage)
+  if (srId) {
+    navigate(`/service-request/${srId}`, { replace: true });
+    return;
+  }
+
+  // fallback أول SR
+  const firstId = getTicketId(srData[0]);
+  if (!firstId) return;
+
+  setCurrentSrId(firstId);
+  navigate(`/service-request/${firstId}`, { replace: true });
+
+}, [id, srData]);
+
 
   // ✅ Next / Previous navigation
   const changeSR = (direction) => {
@@ -89,7 +106,7 @@ const ServiceRequestPage = () => {
     const newId = getTicketId(srData[newIndex]);
     if (!newId) return;
 
-    setSrId(newId);
+    setCurrentSrId(newId);
     navigate(`/service-request/${newId}`);
   };
 
