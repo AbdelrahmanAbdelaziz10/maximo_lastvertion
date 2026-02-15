@@ -131,89 +131,89 @@ const Sidebar = ({ isOpen, width = 200, onRunReports }) => {
         {menuItems.map((item) => (
           <Box key={item.text}>
             {/* ===== Item With Popper ===== */}
-            {item.subItems ? (
-              <>
-                <Tooltip title={!isOpen ? item.text : ""} placement="right">
-                  <ListItemButton
-                    component={Link}
-                    to={item.path}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                    sx={{
-                      borderRadius: "5px",
-                      p: ".4rem",
-                      mb: "4px",
-                      backgroundColor: isItemActive(item)
-                        ? "rgba(255,255,255,0.2)"
-                        : "transparent",
-                      "&:hover": {
-                        backgroundColor: "rgba(255,255,255,0.1)",
-                      },
-                    }}
-                  >
-                    <ListItemIcon sx={{ color: "#fff", minWidth: 30 }}>
-                      {item.icon}
-                    </ListItemIcon>
+           {item.subItems ? (
+  <>
+    <Tooltip title={!isOpen ? item.text : ""} placement="right">
+      <ListItemButton
+        component={Link}
+        to={item.path}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        sx={{
+          borderRadius: "5px",
+          p: ".4rem",
+          mb: "4px",
+          backgroundColor: isItemActive(item)
+            ? "rgba(255,255,255,0.2)"
+            : "transparent",
+          "&:hover": {
+            backgroundColor: "rgba(255,255,255,0.1)",
+          },
+        }}
+      >
+        <ListItemIcon sx={{ color: "#fff", minWidth: 30 }}>
+          {item.icon}
+        </ListItemIcon>
 
-                    {isOpen && (
-                      <>
-                        <ListItemText
-                          primary={item.text}
-                          sx={{
-                            m: "0",
-                            "& span": {
-                              fontSize: ".9rem",
-                              fontWeight: "bold",
-                              color: "#fff",
-                            },
-                          }}
-                        />
-                        <IoMdArrowDropright />
-                      </>
-                    )}
-                  </ListItemButton>
-                </Tooltip>
+        {isOpen && (
+          <>
+            <ListItemText
+              primary={item.text}
+              sx={{
+                m: "0",
+                "& span": {
+                  fontSize: ".9rem",
+                  fontWeight: "bold",
+                  color: "#fff",
+                },
+              }}
+            />
+            <IoMdArrowDropright />
+          </>
+        )}
+      </ListItemButton>
+    </Tooltip>
 
-                {/* ===== Popper (Only if isOpen) ===== */}
-                {isOpen && (
-                  <Popper
-                    open={popperOpen}
-                    anchorEl={anchorEl}
-                    placement="right-start"
-                    sx={{ zIndex: 1300 }}
-                  >
-                    <Paper
-                      elevation={3}
-                      onMouseEnter={() => setAnchorEl(anchorEl)}
-                      onMouseLeave={handleMouseLeave}
-                      sx={{
-                        minWidth: 220,
-                        backgroundColor: "var(--primary-color)",
-                        color: "#fff",
-                      }}
-                    >
-                      <MenuList>
-                        {item.subItems.map((subItem) => (
-                          <MenuItem
-                            key={subItem.text}
-                            onClick={() => handleAction(subItem.action)}
-                            sx={{
-                              fontWeight: "bold",
-                              color: "#fff",
-                              "&:hover": {
-                                backgroundColor: "rgba(255,255,255,0.1)",
-                              },
-                            }}
-                          >
-                            {subItem.text}
-                          </MenuItem>
-                        ))}
-                      </MenuList>
-                    </Paper>
-                  </Popper>
-                )}
-              </>
-            ) : (
+    {/* ===== Popper يظهر فقط على صفحة Service Request ===== */}
+    {isOpen && activePath.startsWith("/service-request") && (
+      <Popper
+        open={popperOpen}
+        anchorEl={anchorEl}
+        placement="right-start"
+        sx={{ zIndex: 1300 }}
+      >
+        <Paper
+          elevation={3}
+          onMouseEnter={() => setAnchorEl(anchorEl)}
+          onMouseLeave={handleMouseLeave}
+          sx={{
+            minWidth: 220,
+            backgroundColor: "var(--primary-color)",
+            color: "#fff",
+          }}
+        >
+          <MenuList>
+            {item.subItems.map((subItem) => (
+              <MenuItem
+                key={subItem.text}
+                onClick={() => handleAction(subItem.action)}
+                sx={{
+                  fontWeight: "bold",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "rgba(255,255,255,0.1)",
+                  },
+                }}
+              >
+                {subItem.text}
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Paper>
+      </Popper>
+    )}
+  </>
+) : (
               /* ===== Normal Item ===== */
               <Tooltip title={!isOpen ? item.text : ""} placement="right">
                 <ListItemButton
