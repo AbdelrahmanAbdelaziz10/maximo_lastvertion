@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -14,73 +14,81 @@ import {
   Typography,
 } from "@mui/material";
 import { ArrowBack, ArrowForward, Download } from "@mui/icons-material";
-import "../../Style/SelectValue.css";
-import { tableData } from "../../../Data/config.json";
 import { Filter } from "lucide-react";
+import "../../Style/SelectValue.css";
 
-const SelectValue = ({ open, onClose, onSelectValue }) => {
+const SelectValue = ({
+  open,
+  onClose,
+  onSelectValue,
+  value = [],
+  tabs = [],
+  loading = false,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [showFilter, setShowFilter] = useState(false); // يبدأ مخفي
-  const [filters, setFilters] = useState({
-    person: "",
-    name: "",
-    title: "",
-    dept: "",
-    location: "",
-    site: "",
-    org: "",
-  });
+  const [showFilter, setShowFilter] = useState(false);
+  const [filters, setFilters] = useState({});
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
 
   const itemsPerPage = 12;
 
-  /* ========= FILTER ========= */
-  const filteredData = tableData.filter((row) =>
+  /* ===== Columns ===== */
+  const columns =
+    tabs?.map((tab) => ({
+      key: tab.key,
+      label: tab.label,
+    })) || [];
+
+  /* ===== Initialize Filters ===== */
+  useEffect(() => {
+    const newFilters = {};
+    tabs?.forEach((t) => (newFilters[t.key] = ""));
+    setFilters(newFilters);
+    setCurrentPage(1);
+  }, [tabs]);
+
+  /* ===== Filtering ===== */
+  const filteredData = (value || []).filter((row) =>
     Object.keys(filters).every((key) =>
-      String(row[key]).toLowerCase().includes(filters[key].toLowerCase())
+      String(row?.[key] ?? "")
+        .toLowerCase()
+        .includes(filters[key]?.toLowerCase() || "")
     )
   );
 
-  /* ========= PAGINATION ========= */
+  /* ===== Pagination ===== */
   const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
   const paginatedData = filteredData.slice(startIndex, endIndex);
 
-  const columns = [
-    { key: "person", label: "Person" },
-    { key: "name", label: "Name" },
-    { key: "title", label: "Title" },
-    { key: "dept", label: "Department" },
-    { key: "location", label: "Location" },
-    { key: "site", label: "Site" },
-    { key: "org", label: "Organization" },
-  ];
-
-  /* ========= HANDLERS ========= */
-  const handleRowClick = (row, index) => {
+  /* ===== Handlers ===== */
+  const handleRowClick = (_, index) => {
     setSelectedRowIndex(index);
   };
 
-  const handleOk = () => {
-    if (selectedRowIndex !== null) {
-      onSelectValue?.(paginatedData[selectedRowIndex]);
-    }
-    onClose();
-    setSelectedRowIndex(null);
-  };
+const handleOk = () => {
+  if (selectedRowIndex !== null) {
+    const selectedRow = paginatedData[selectedRowIndex];
+
+    // نرجع القيمة الأساسية بدل object كامل
+    const firstKey = tabs[0]?.key; // أول tab هو المفتاح اللي هيتحط في input
+    onSelectValue?.(selectedRow[firstKey]);
+  }
+  handleCancel();
+};
 
   const handleCancel = () => {
-    onClose();
     setSelectedRowIndex(null);
+    onClose();
   };
 
   return (
     <Dialog
       open={open}
       onClose={(event, reason) => {
-        // تجاهل أي نقر خارجية أو escape
         if (reason === "backdropClick" || reason === "escapeKeyDown") return;
         onClose();
       }}
@@ -95,7 +103,7 @@ const SelectValue = ({ open, onClose, onSelectValue }) => {
         },
       }}
     >
-      {/* ========= HEADER ========= */}
+      {/* ===== Header ===== */}
       <Box
         sx={{
           px: 2,
@@ -114,15 +122,12 @@ const SelectValue = ({ open, onClose, onSelectValue }) => {
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Button
             size="small"
-            startIcon={<Filter size={20} />}
-            onClick={() => setShowFilter((prev) => !prev)} // toggle عند كل ضغط
+            startIcon={<Filter size={18} />}
+            onClick={() => setShowFilter((prev) => !prev)}
             sx={{
               color: "white",
               textTransform: "none",
               backgroundColor: "rgba(255,255,255,.2)",
-              "&:hover": {
-                backgroundColor: "rgba(255,255,255,.3)",
-              },
             }}
           >
             Filter
@@ -137,7 +142,7 @@ const SelectValue = ({ open, onClose, onSelectValue }) => {
             <ArrowBack fontSize="small" />
           </IconButton>
 
-          <Typography fontSize=".8rem" fontWeight={500}>
+          <Typography fontSize=".8rem">
             {totalItems === 0 ? "0 – 0" : `${startIndex + 1} – ${endIndex}`} of{" "}
             {totalItems}
           </Typography>
@@ -157,23 +162,16 @@ const SelectValue = ({ open, onClose, onSelectValue }) => {
         </Box>
       </Box>
 
-      {/* ========= TABLE ========= */}
+      {/* ===== Table ===== */}
       <DialogContent sx={{ p: 0 }}>
         <Table stickyHeader>
           <TableHead>
-            {/* ---------- Header Titles ---------- */}
             <TableRow>
               {columns.map((col) => (
-                <TableCell
-                  key={col.key}
-                  sx={{ fontSize: ".8rem", fontWeight: 600 }}
-                >
-                  {col.label}
-                </TableCell>
+                <TableCell key={col.key}>{col.label}</TableCell>
               ))}
             </TableRow>
 
-            {/* ---------- Filter Inputs تحت العناوين ---------- */}
             {showFilter && (
               <TableRow>
                 {columns.map((col) => (
@@ -181,17 +179,18 @@ const SelectValue = ({ open, onClose, onSelectValue }) => {
                     <input
                       type="text"
                       placeholder={`Search ${col.label}`}
-                      value={filters[col.key]}
+                      value={filters[col.key] || ""}
                       onChange={(e) => {
-                        setFilters({ ...filters, [col.key]: e.target.value });
+                        setFilters({
+                          ...filters,
+                          [col.key]: e.target.value,
+                        });
                         setCurrentPage(1);
                       }}
                       style={{
                         width: "100%",
-                        padding: "4px 6px",
-                        fontSize: "0.75rem",
-                        borderRadius: "0px",
-                        border:"0px",
+                        padding: "4px",
+                        border: 0,
                         borderBottom: "1px solid #ccc",
                         outline: "none",
                       }}
@@ -203,9 +202,15 @@ const SelectValue = ({ open, onClose, onSelectValue }) => {
           </TableHead>
 
           <TableBody>
-            {paginatedData.length === 0 ? (
+            {loading ? (
               <TableRow>
-                <TableCell colSpan={columns.length} align="center" sx={{ py: 3 }}>
+                <TableCell colSpan={columns.length} align="center">
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : paginatedData.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={columns.length} align="center">
                   No data found
                 </TableCell>
               </TableRow>
@@ -219,11 +224,10 @@ const SelectValue = ({ open, onClose, onSelectValue }) => {
                     cursor: "pointer",
                     backgroundColor:
                       selectedRowIndex === index ? "#cce4ff" : "transparent",
-                    "&:hover": { backgroundColor: "#f1f8ff" },
                   }}
                 >
                   {columns.map((col) => (
-                    <TableCell key={col.key} className="table-column">
+                    <TableCell key={col.key}>
                       {row[col.key]}
                     </TableCell>
                   ))}
@@ -234,16 +238,9 @@ const SelectValue = ({ open, onClose, onSelectValue }) => {
         </Table>
       </DialogContent>
 
-      {/* ========= FOOTER ========= */}
-      <DialogActions
-        sx={{
-          px: 2,
-          py: 1.5,
-          borderTop: "1px solid #ddd",
-          background: "#fafafa",
-        }}
-      >
-        <Button variant="contained" onClick={handleOk}>
+      {/* ===== Footer ===== */}
+      <DialogActions sx={{ px: 2, py: 1.5 }}>
+        <Button className="new-fancy-row-btn" onClick={handleOk}>
           OK
         </Button>
         <Button variant="outlined" onClick={handleCancel}>

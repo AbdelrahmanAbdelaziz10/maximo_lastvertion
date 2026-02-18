@@ -15,9 +15,9 @@ const SRLog = ({ RowDataSr }) => {
         }}
       >
         <CardContent>
-          <Row className="g-2 justify-content-around ">
+          <Row className="g-1 justify-content-around ">
             <Col xs={12} md={6} lg={3}>
-              <Box display="flex" alignItems="center" gap={1}>
+              <Box display="flex" alignItems="center">
                 <Typography className="input-text">Service Request:</Typography>
                 <Input
                   fullWidth
@@ -29,7 +29,9 @@ const SRLog = ({ RowDataSr }) => {
               </Box>
             </Col>
             <Col xs={12} md={6} lg={4}>
-              <Box display="flex" alignItems="center" gap={1.5}>
+              <Box display="flex" alignItems="center" >
+                                <Typography className="input-text">Summary:</Typography>
+
                 <Input
                   fullWidth
                   value={RowDataSr[0]?.description || " "}
@@ -40,7 +42,7 @@ const SRLog = ({ RowDataSr }) => {
               </Box>
             </Col>
             <Col xs={12} md={6} lg={2}>
-              <Box display="flex" alignItems="center" gap={1.5}>
+              <Box display="flex" alignItems="center">
                 <Typography className="input-text">Site:</Typography>
                 <Input
                   fullWidth
@@ -51,8 +53,8 @@ const SRLog = ({ RowDataSr }) => {
                 />
               </Box>
             </Col>
-            <Col xs={12} md={6} lg={3}>
-              <Box display="flex" alignItems="center" gap={1.5}>
+            <Col xs={12} md={6} lg={2}>
+              <Box display="flex" alignItems="center" >
                 <Typography className="input-text">Status:</Typography>
                 <Input
                   fullWidth

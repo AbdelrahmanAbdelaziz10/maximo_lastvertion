@@ -63,12 +63,9 @@ const SRDetails = ({ RowDataSr }) => {
 
   const icons = {
     search: <SearchIcon fontSize="small" />,
-    link: <InsertLinkIcon fontSize="small" />,
-    preview: <PreviewIcon fontSize="small" />,
   };
 
   // Info arrays
-  const UserInformation2 = [];
   const ServiceRequestDetails = [
     {
       label: "Details",
@@ -81,50 +78,54 @@ const SRDetails = ({ RowDataSr }) => {
       label: "Assets",
       Value: RowDataSr[0]?.assetnum || " ",
       Key: 2,
-      icon: "search",
+    lookupKey: "Assets",     
+          icon: "search",
+
     },
     { label: "Assets Description", Value: " ", Key: 3 },
     {
       label: "Location",
       Value: RowDataSr[0]?.location || " ",
-      Key: 2,
+      Key: 4,
       icon: "search",
     },
-    { label: "Location Description", Value: " ", Key: 3 },
-    { label: "Asset Site", Value: RowDataSr[0]?.assetsiteid || " ", Key: 4 },
-    { label: "Classification", Value: " ", Key: 5 }, // Not Found attribute
-    { label: "Class Description", Value: " ", Key: 6 }, // Not Found attribute
+    { label: "Location Description", Value: " ", Key: 5 },
+    { label: "Asset Site", Value: RowDataSr[0]?.assetsiteid || " ", Key: 6 },
+    { label: "Classification", Value: " ", Key: 7 }, // Not Found attribute
+    { label: "Class Description", Value: " ", Key: 8 }, // Not Found attribute
     {
       label: "Department",
       Value: RowDataSr[0]?.exedept || " ",
-      Key: 7,
-      icon: "search",
+      Key: 9,
+          lookupKey: "Department",
+          icon: "search",
+
     },
     {
       label: "Work Type",
       Value: RowDataSr[0]?.worktype || " ",
-      Key: 8,
+      Key: 9,
       icon: "search",
     },
     {
       label: "Reported Priority",
       Value: RowDataSr[0]?.reportedpriority || " ",
-      Key: 9,
+      Key: 10,
       icon: "search",
     },
     {
       label: "Internal Priority",
       Value: RowDataSr[0]?.internalpriority || " ",
-      Key: 10,
+      Key: 11,
     },
     {
       label: "Service Group ",
       Value: RowDataSr[0]?.commoditygroup || " ",
-      Key: 11,
+      Key: 12,
     }, // Not Found attribute
-    { label: "Service ", Value: RowDataSr[0]?.commodity || " ", Key: 12 }, // Not Found attribute
-    { label: "Vendor", Value: RowDataSr[0]?.vendor || " ", Key: 13 }, //  Not Found attribute
-    { label: "Site", Value: RowDataSr[0]?.siteid || " ", Key: 14 },
+    { label: "Service ", Value: RowDataSr[0]?.commodity || " ", Key: 13 }, // Not Found attribute
+    { label: "Vendor", Value: RowDataSr[0]?.vendor || " ", Key: 14 }, //  Not Found attribute
+    { label: "Site", Value: RowDataSr[0]?.siteid || " ", Key: 15 },
   ];
   const UserInformation = [
     {
@@ -231,6 +232,10 @@ const SRDetails = ({ RowDataSr }) => {
   const handleFileChange2 = (files) => {
     // console.log("Files uploaded:", files);
   };
+
+
+  
+
 
   return (
     <>

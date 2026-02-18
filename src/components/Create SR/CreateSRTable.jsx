@@ -14,6 +14,7 @@ import CreateAttachment from "./CreateAttachment";
 import config from "../../../Data/config.json";
 import SearchIcon from "@mui/icons-material/Search";
 import SelectValue from "./SelectValue";
+import { useFetch } from "../../hooks/getFetch";
 
 const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
   // ====== State ======
@@ -27,16 +28,20 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
   });
 
   const handleSelectValue = (value) => {
+    if (currentField) {
+      handleSmartInputChange(currentField, value); // تحديث الفورم
+    }
     setSelectValueOpen(false);
     setCurrentField(null);
   };
+
   // console.log("data2:",formData)
   const [selectValueOpen, setSelectValueOpen] = useState(false);
 
-  const handelSelectValue = () => {
+  const handelSelectValue = (item) => {
+    setCurrentField(item); // تحدد الفيلد اللي هيتعامل معاه المودال
     setSelectValueOpen(true);
   };
-
 
   // ====== Handlers ======
   const toggleSection = (key) => {
@@ -60,29 +65,107 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
     }));
   };
 
+  /* الداتا بتاعت ال Assets */
+  const { data: AssetData, loading } = useFetch(
+    "http://192.168.0.73:9080/maximo/oslc/os/PORTALASSET?lean=1&oslc.select=*&ignorers=1&ignorekeyref=1&_lid=maxadmin&_lpwd=maxadmin",
+  );
+  /*  استخدمت useMemo  علشان متعملش map  بعد كل  render*/
 
-    const renderIcon = (iconType, item, idx) => {
-      switch (iconType) {
-        case "search":
-          return (
-            <IconButton size="small" onClick={() => handelSelectValue()}>
-              <SearchIcon fontSize="small" />
-            </IconButton>
-          );
-  
-    //    case "time":
-    // return (
-    //   <DateTimeField
-    //     value={item?.value}
-    //     onChange={(val) => handleDateChange(val, item, idx)}
-    //   />
-    // );
-  
-  
-        default:
-          return null;
-      }
-    };
+  const assetValues = React.useMemo(() => {
+    return (
+      AssetData?.member?.map((item) => ({
+        assetnum: item.assetnum,
+        description: item.description,
+        location: item.location,
+        siteid: item.siteid,
+      })) || []
+    );
+  }, [AssetData]);
+
+  console.log("AssetData:", AssetData?.member);
+
+  /* الداتا بتاعت ال Department */
+  const { data: DepartmentData, depLoading } = useFetch(
+    'http://192.168.0.73:9080/maximo/oslc/os/PORTALALNDOMAIN?lean=1&oslc.select=*&oslc.where=domainid="DEPT"&_lid=maxadmin&_lpwd=maxadmin',
+  );
+  /*  استخدمت useMemo  علشان متعملش map  بعد كل  render*/
+
+  const departmentValues = React.useMemo(() => {
+    return (
+      DepartmentData?.member?.map((item) => ({
+        value: item.value,
+        description: item.description,
+      })) || []
+    );
+  }, [DepartmentData]);
+
+  console.log("DepartmentData:", DepartmentData?.member);
+
+  /* الداتا بتاعت ال Location */
+  const { data: LocationData, locLoading } = useFetch(
+    "http://192.168.0.73:9080/maximo/oslc/os/PORTALLOCATION?lean=1&oslc.select=*&ignorers=1&ignorekeyref=1&_lid=maxadmin&_lpwd=maxadmin",
+  );
+  /*  استخدمت useMemo  علشان متعملش map  بعد كل  render*/
+
+  const locationValues = React.useMemo(() => {
+    return (
+      LocationData?.member?.map((item) => ({
+        location: item.location,
+        description: item.description,
+        siteid: item.siteid,
+      })) || []
+    );
+  }, [LocationData]);
+  console.log("LocationData:", LocationData?.member);
+
+  const selectValueConfig = {
+    Assets: {
+      value: assetValues,
+      tabs: [
+        { label: "Asset", key: "assetnum" },
+        { label: "Description", key: "description" },
+        { label: "Location", key: "location" },
+        { label: "Site", key: "siteid" },
+      ],
+    },
+    Department: {
+      value: departmentValues,
+      tabs: [
+        { label: "Value", key: "value" },
+        { label: "Description", key: "description" },
+      ],
+    },
+    Location: {
+      value: locationValues,
+      tabs: [
+        { label: "Location", key: "location" },
+        { label: "Description", key: "description" },
+        { label: "Site", key: "siteid" },
+      ],
+    },
+  };
+
+  const renderIcon = (iconType, item, idx) => {
+    switch (iconType) {
+      case "search":
+        return (
+          <IconButton size="small" onClick={() => handelSelectValue(item)}>
+            <SearchIcon fontSize="small" />
+          </IconButton>
+        );
+
+      //    case "time":
+      // return (
+      //   <DateTimeField
+      //     value={item?.value}
+      //     onChange={(val) => handleDateChange(val, item, idx)}
+      //   />
+      // );
+
+      default:
+        return null;
+    }
+  };
 
   // ====== UI ======
   return (
@@ -198,11 +281,8 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
                         className="input-general "
                         disableUnderline
                       />
-
-
                     )}
-                                                            {renderIcon(item.icon, item, idx)}
-
+                    {renderIcon(item.icon, item, idx)}
                   </Box>
                 ))}
               </Col>
@@ -353,16 +433,16 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
         />
       </AnimatedSection>
 
-
-
-
       {/* Select Value Modal */}
-              <SelectValue
-                open={selectValueOpen}
-                field={currentField}
-                onClose={() => setSelectValueOpen(false)}
-                onSelectValue={handleSelectValue}
-              />
+      <SelectValue
+        open={selectValueOpen}
+        field={currentField}
+        value={selectValueConfig[currentField?.label]?.value}
+        tabs={selectValueConfig[currentField?.label]?.tabs}
+        loading={currentField?.label === "Department" ? depLoading : loading}
+        onClose={() => setSelectValueOpen(false)}
+        onSelectValue={handleSelectValue}
+      />
     </>
   );
 };

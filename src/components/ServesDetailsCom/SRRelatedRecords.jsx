@@ -48,8 +48,10 @@ const SRRelatedRecords = ({ RowDataSr, Id }) => {
               </Box>
             </Col>
 
-            <Col xs={12} md={6} lg={4}>
+            <Col xs={12} md={6} lg={5}>
               <Box display="flex" alignItems="center" gap={1.5}>
+                                <Typography className="input-text">Summary:</Typography>
+
                 <Input
                   fullWidth
                   value={RowDataSr[0]?.description || " "}
@@ -73,7 +75,7 @@ const SRRelatedRecords = ({ RowDataSr, Id }) => {
               </Box>
             </Col>
 
-            <Col xs={12} md={6} lg={3}>
+            <Col xs={12} md={6} lg={2}>
               <Box display="flex" alignItems="center" gap={1.5}>
                 <Typography className="input-text">Status:</Typography>
                 <Input

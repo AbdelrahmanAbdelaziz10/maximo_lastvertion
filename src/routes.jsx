@@ -16,6 +16,7 @@ import MainLayout from "./layouts/MainLayout";
 import SRPagesTest from "./Pages/serviceRequest/SRPagesTest";
 import AssetsPage from "./Pages/Assets/AssetsPage";
 import AssetsDetails from "./Pages/Assets/AssetsDetails";
+import SRTest from "./Pages/serviceRequest/SRTest";
 
 const router = createBrowserRouter(
   [
@@ -47,7 +48,8 @@ const router = createBrowserRouter(
             { path: "work-orders", element: <WorkOrder /> },
             { path: "work-orders/:id", element: <WorkOrderPage /> },
             { path: "viewer", element: <ViewerCad /> },
-            { path: "Create-SR", element: <CreateSR /> },
+            // { path: "Create-SR", element: <CreateSR /> },
+            {path: "Create-SR" , element:<SRTest />  },
             { path: "update-SR/:id", element: <SRUpdate /> },
             { path: "Test-SR/:id", element: <SRPagesTest /> },
             { path: "assets", element: <AssetsPage /> },

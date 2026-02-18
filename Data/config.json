@@ -8,9 +8,9 @@
 
   "ServiceRequestDetails": [
       { "label": "Details", "key": "details", "type": "textbox" },
-      { "label": "Asset", "key": "asset" , "icon": "search"},
+      { "label": "Assets", "key": "Asset" , "icon": "search"},
       { "label": "Asset Description", "key": "assetDescription" },
-      { "key": "LOCATION", "label": "Location" ,"icon": "search"},
+      { "key": "Location", "label": "Location" ,"icon": "search"},
       { "label": "Location Description", "key": "locationDescription" },
       { "label": "Asset Site", "key": "assetSite" },
       { "label": "Classification", "key": "classification" },
@@ -39,12 +39,12 @@
     ]
   },
   "UserInformationAll": [
-      { "label": "Requested By", "key": "requestedBy" },
-      { "label": "Name", "key": "name" },
+      { "label": "Requested By", "key": "requestedBy" , "icon": "search" },
+      { "label": "Name", "key": "name", "icon": "search" },
       { "label": "Phone", "key": "phone" },
       { "label": "E-mail", "key": "email" },
-      { "label": "Reported By", "key": "reportedBy" },
-      { "label": "Full Name", "key": "fullName" },
+      { "label": "Reported By", "key": "reportedBy", "icon": "search" },
+      { "label": "Full Name", "key": "fullName", "icon": "search" },
       { "label": "Phone", "key": "contactPhone" },
       { "label": "E-mail", "key": "contactEmail" }
     ]

@@ -13,9 +13,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import PreviewIcon from "@mui/icons-material/Preview";
 import SelectValue from "../Create SR/SelectValue";
-import { BsCalendar2DateFill } from "react-icons/bs";
 import DateTimeField from "../Common/DateTimeField";
-
+import { useFetch } from "../../hooks/getFetch";
 
 const stripHtml = (html) => {
   if (!html) return "";
@@ -25,7 +24,6 @@ const stripHtml = (html) => {
 
 const SRSectionDetails = ({
   UserInformation = [],
-  labelWidth = "130px",
   DetailsList = [],
   icons,
   onFieldUpdate,
@@ -35,6 +33,61 @@ const SRSectionDetails = ({
   const [selectValueOpen, setSelectValueOpen] = useState(false);
   const [currentField, setCurrentField] = useState(null);
 
+  /* الداتا بتاعت ال Assets */
+  const { data: AssetData, loading } = useFetch(
+    "http://192.168.0.73:9080/maximo/oslc/os/PORTALASSET?lean=1&oslc.select=*&ignorers=1&ignorekeyref=1&_lid=maxadmin&_lpwd=maxadmin",
+  );
+
+  console.log("AssetData:", AssetData?.member);
+
+  /* الداتا بتاعت ال Assets */
+  const { data: DepartmentData, depLoading } = useFetch(
+    'http://192.168.0.73:9080/maximo/oslc/os/PORTALALNDOMAIN?lean=1&oslc.select=*&oslc.where=domainid="DEPT"&_lid=maxadmin&_lpwd=maxadmin',
+  );
+
+  console.log("DepartmentData:", DepartmentData?.member);
+
+  /*  استخدمت useMemo  علشان متعملش map  بعد كل  render*/
+
+  const assetValues = React.useMemo(() => {
+    return (
+      AssetData?.member?.map((item) => ({
+        assetnum: item.assetnum,
+        description: item.description,
+        location: item.location,
+        siteid: item.siteid,
+      })) || []
+    );
+  }, [AssetData]);
+
+ const departmentValues = React.useMemo(() => {
+    return (
+      DepartmentData?.member?.map((item) => ({
+        value: item.value,
+        description: item.description,
+      })) || []
+    );
+  }, [DepartmentData]);
+
+  const selectValueConfig = {
+    Assets: {
+      value:assetValues ,
+      tabs: [
+        { label: "Asset", key: "assetnum" },
+        { label: "Description", key: "description" },
+        { label: "Location", key: "location" },
+        { label: "Site", key: "siteid" },
+      ],
+    },
+    Department: {
+      value:departmentValues ,
+      tabs: [
+        { label: "Value", key: "value" },
+        { label: "Description", key: "description" },
+      ],
+    },
+  };
+
   const defaultIcons = {
     search: <SearchIcon fontSize="small" />,
     link: <InsertLinkIcon fontSize="small" />,
@@ -43,20 +96,9 @@ const SRSectionDetails = ({
 
   const iconSet = icons || defaultIcons;
 
-  const handleIconClick = (index) => {
-    setActiveIndex((prev) => (prev === index ? null : index));
-  };
-
-  const handelSelectValue = () => {
+  const handleSearchClick = (item) => {
+    setCurrentField(item);
     setSelectValueOpen(true);
-  };
-
-  const handleOptionClick = (option, field) => {
-    if (option === "Select Value") {
-      setCurrentField(field);
-      setSelectValueOpen(true);
-    }
-    setActiveIndex(null);
   };
 
   const handleSelectValue = (value) => {
@@ -66,32 +108,29 @@ const SRSectionDetails = ({
     setSelectValueOpen(false);
     setCurrentField(null);
   };
- 
+
   const handleDateChange = (val, item) => {
-  if (onFieldUpdate) {
-    onFieldUpdate(item.Key, val);
-  }
-};
-
-
+    if (onFieldUpdate) {
+      onFieldUpdate(item.Key, val);
+    }
+  };
 
   const renderIcon = (iconType, item, idx) => {
     switch (iconType) {
       case "search":
         return (
-          <IconButton size="small" onClick={() => handelSelectValue()}>
+          <IconButton size="small" onClick={() => handleSearchClick(item)}>
             <SearchIcon fontSize="small" />
           </IconButton>
         );
 
-     case "time":
-  return (
-    <DateTimeField
-      value={item?.value}
-      onChange={(val) => handleDateChange(val, item, idx)}
-    />
-  );
-
+      case "time":
+        return (
+          <DateTimeField
+            value={item?.value}
+            onChange={(val) => handleDateChange(val, item)}
+          />
+        );
 
       default:
         return null;
@@ -114,12 +153,10 @@ const SRSectionDetails = ({
                   position: "relative",
                 }}
               >
-                {/* Label */}
                 <Typography className="input-text text-width">
                   {item.label}:
                 </Typography>
 
-                {/* Input أو Textarea */}
                 <Box
                   sx={{
                     flex: 1,
@@ -131,7 +168,6 @@ const SRSectionDetails = ({
                   {item.type === "textbox" ? (
                     <TextareaAutosize
                       value={stripHtml(item.Value)}
-                      readOnly={false}
                       className="textarea-general"
                       minRows={3}
                     />
@@ -144,25 +180,9 @@ const SRSectionDetails = ({
                     />
                   )}
 
-                  {/* {item.icon && (
-                    <IconButton
-                      size="small"
-                      // onClick={() =>{ handleIconClick(idx)}}
-                      onClick={()=>handelSelectValue()}
-                      sx={{
-                        ml: 0.5,
-                        color: isActive ? "primary.main" : "action.active",
-                      }}
-                      
-                    >
-                      <SearchIcon fontSize="small" />
-                    </IconButton>
-                  )} */}
-
                   {renderIcon(item.icon, item, idx)}
                 </Box>
 
-                {/* Dropdown for show select value */}
                 {isActive && (
                   <Paper
                     elevation={4}
@@ -180,7 +200,6 @@ const SRSectionDetails = ({
                     {DetailsList.map((option, i) => (
                       <Box
                         key={i}
-                        onClick={() => handleOptionClick(option.title, item)}
                         sx={{
                           px: 2,
                           py: 1,
@@ -211,6 +230,9 @@ const SRSectionDetails = ({
         <SelectValue
           open={selectValueOpen}
           field={currentField}
+          value={selectValueConfig[currentField?.label]?.value}
+          tabs={selectValueConfig[currentField?.label]?.tabs}
+          loading={loading}
           onClose={() => setSelectValueOpen(false)}
           onSelectValue={handleSelectValue}
         />
