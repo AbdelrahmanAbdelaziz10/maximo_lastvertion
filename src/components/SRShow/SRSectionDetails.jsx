@@ -38,27 +38,26 @@ const SRSectionDetails = ({
     "http://192.168.0.73:9080/maximo/oslc/os/PORTALASSET?lean=1&oslc.select=*&ignorers=1&ignorekeyref=1&_lid=maxadmin&_lpwd=maxadmin",
   );
 
-  console.log("AssetData:", AssetData?.member);
+  // console.log("AssetData:", AssetData?.member);
 
   /* الداتا بتاعت ال Assets */
   const { data: DepartmentData, depLoading } = useFetch(
     'http://192.168.0.73:9080/maximo/oslc/os/PORTALALNDOMAIN?lean=1&oslc.select=*&oslc.where=domainid="DEPT"&_lid=maxadmin&_lpwd=maxadmin',
   );
 
-  console.log("DepartmentData:", DepartmentData?.member);
+  // console.log("DepartmentData:", DepartmentData?.member);
 
   /*  استخدمت useMemo  علشان متعملش map  بعد كل  render*/
 
-  const assetValues = React.useMemo(() => {
-    return (
-      AssetData?.member?.map((item) => ({
-        assetnum: item.assetnum,
-        description: item.description,
-        location: item.location,
-        siteid: item.siteid,
-      })) || []
-    );
-  }, [AssetData]);
+ const assetValues = React.useMemo(() => {
+  if (!AssetData?.member) return [];
+  return AssetData.member.map(item => ({
+    assetnum: item.assetnum,
+    description: item.description,
+    location: item.location,
+    siteid: item.siteid,
+  }));
+}, [AssetData]);
 
  const departmentValues = React.useMemo(() => {
     return (
@@ -69,7 +68,7 @@ const SRSectionDetails = ({
     );
   }, [DepartmentData]);
 
-  const selectValueConfig = {
+  const selectValueConfig =  React.useMemo(() => ({
     Assets: {
       value:assetValues ,
       tabs: [
@@ -86,7 +85,7 @@ const SRSectionDetails = ({
         { label: "Description", key: "description" },
       ],
     },
-  };
+}), [assetValues, departmentValues]);
 
   const defaultIcons = {
     search: <SearchIcon fontSize="small" />,
@@ -230,8 +229,8 @@ const SRSectionDetails = ({
         <SelectValue
           open={selectValueOpen}
           field={currentField}
-          value={selectValueConfig[currentField?.label]?.value}
-          tabs={selectValueConfig[currentField?.label]?.tabs}
+          value={selectValueConfig[currentField?.label]?.value || []}
+          tabs={selectValueConfig[currentField?.label]?.tabs || []}
           loading={loading}
           onClose={() => setSelectValueOpen(false)}
           onSelectValue={handleSelectValue}

@@ -82,7 +82,7 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
     );
   }, [AssetData]);
 
-  console.log("AssetData:", AssetData?.member);
+  // console.log("AssetData:", AssetData?.member);
 
   /* الداتا بتاعت ال Department */
   const { data: DepartmentData, depLoading } = useFetch(
@@ -99,7 +99,7 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
     );
   }, [DepartmentData]);
 
-  console.log("DepartmentData:", DepartmentData?.member);
+  // console.log("DepartmentData:", DepartmentData?.member);
 
   /* الداتا بتاعت ال Location */
   const { data: LocationData, locLoading } = useFetch(
@@ -116,9 +116,9 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
       })) || []
     );
   }, [LocationData]);
-  console.log("LocationData:", LocationData?.member);
+  // console.log("LocationData:", LocationData?.member);
 
-  const selectValueConfig = {
+  const selectValueConfig =  React.useMemo(() => ({
     Assets: {
       value: assetValues,
       tabs: [
@@ -143,7 +143,7 @@ const CreateSRTable = ({ RowDataSr, formData, setFormData }) => {
         { label: "Site", key: "siteid" },
       ],
     },
-  };
+}), [assetValues, departmentValues, locationValues]);
 
   const renderIcon = (iconType, item, idx) => {
     switch (iconType) {

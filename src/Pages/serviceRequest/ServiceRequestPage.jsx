@@ -61,32 +61,15 @@ const { id } = useParams();
 useEffect(() => {
   if (!srData?.length) return;
 
-  // لو فيه ID في URL
-  if (id) {
-    const exists = srData.find((item) => getTicketId(item) === id);
+  const targetId = id || getTicketId(srData[0]);
+  if (!targetId) return;
 
-    if (exists) {
-      setCurrentSrId(id);
-      return;
-    }
+  if (srId !== targetId) {
+    setCurrentSrId(targetId);
+    if (!id) navigate(`/service-request/${targetId}`, { replace: true });
   }
-
-  // لو مفيش في URL خالص → خد من Context (localStorage)
-  if (srId) {
-    navigate(`/service-request/${srId}`, { replace: true });
-    return;
-  }
-
-  // fallback أول SR
-  const firstId = getTicketId(srData[0]);
-  if (!firstId) return;
-
-  setCurrentSrId(firstId);
-  navigate(`/service-request/${firstId}`, { replace: true });
 
 }, [id, srData]);
-
-
 
   // ✅ Next / Previous navigation
   const changeSR = (direction) => {

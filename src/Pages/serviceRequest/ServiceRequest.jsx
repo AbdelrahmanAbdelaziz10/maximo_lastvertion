@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Col, Row, Dropdown } from "react-bootstrap";
 import { Box, Typography, Grid, CircularProgress, Tooltip } from "@mui/material";
 import { Assignment, BarChart, EventAvailable } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TableData from "../../components/Common/TableData";
 import { useSidebar } from "../../components/Context/SidebarContext";
 import AddIcon from "@mui/icons-material/Add";
@@ -16,11 +16,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import SaveIcon from "@mui/icons-material/Save";
 import { IoMdCreate } from "react-icons/io";
 import { useSRData } from "../../components/Context/SRDataContext";
+import { useGlobal } from "../../components/Context/GlobalContext";
 
 const ServiceRequest = () => {
   const { setSrData, setTableTitle } = useSRData();
 // const [tableTitle, setTableTitle] = useState("Total Service Request");
-
+  const {setValue}= useGlobal();
+  const navigate = useNavigate();
 
 
 const ShowTotalSr = (value) => {
@@ -206,7 +208,7 @@ useEffect(() => {
   ];
 
 
-    console.log("filter Data:",filter)
+    // console.log("filter Data:",filter)
 
   // === UI ===
   return (
@@ -241,8 +243,11 @@ useEffect(() => {
         </Col> */}
 
         <Col xs={12} md={4} className="d-flex justify-content-md-end">
-                    <Link to="/create-SR" >
-        <Tooltip title="Save" arrow placement="bottom">
+                    {/* <Link to="/create-SR" > */}
+        <Tooltip title="Create New" arrow placement="bottom" onClick={() => {
+    setValue("create");
+    navigate("/service-request/create");
+  }}>
                       <motion.div
                         className="print-iconBox create_sr"
                         whileTap={{ scale: 0.9, y: 3 }}
@@ -255,7 +260,6 @@ useEffect(() => {
                         Create Service Request
                       </motion.div>
                     </Tooltip>
-                    </Link>
           {/* <Link to="/create-SR" className="sr-button">
             <AddIcon fontSize="small" />
             <span>Create Service Request</span>

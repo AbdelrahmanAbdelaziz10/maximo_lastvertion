@@ -26,11 +26,11 @@ const SRDetails = ({ RowDataSr }) => {
   const [loading, setLoading] = useState(false);
   const [statusValue, setStatusValue] = useState("");
 
-  useEffect(() => {
-    if (RowDataSr?.[0]?.description) {
-      setStatusValue(RowDataSr[0].description);
-    }
-  }, [RowDataSr]);
+useEffect(() => {
+  if (RowDataSr?.[0]?.description) {
+    setStatusValue(RowDataSr[0].description);
+  }
+}, [RowDataSr?.[0]?.description]);
 
   // console.log("data:", RowDataSr);
 
@@ -46,20 +46,23 @@ const SRDetails = ({ RowDataSr }) => {
   const toggleSRD = () => setServiceRequestDetails((prev) => !prev);
   const toggleQRCode = () => setIsQROpen((prev) => !prev);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await useFetch("srdata");
-        setData(response);
-      } catch (error) {
-        console.error("Error fetching SR data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+
+
+ useEffect(() => {
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("srdata");
+      const data = await response.json();
+      setData(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchData();
+}, []);
 
   const icons = {
     search: <SearchIcon fontSize="small" />,

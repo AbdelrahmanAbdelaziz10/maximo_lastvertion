@@ -43,13 +43,19 @@ const router = createBrowserRouter(
           ),
           children: [
             { path: "dashboard", element: <DashBoard /> },
-            { path: "service-request", element: <ServiceRequest /> },
-            { path: "service-request/:id", element: <ServiceRequestPage /> },
+            {
+              path: "service-request",
+              children: [
+                { index: true, element: <ServiceRequest /> },
+                { path: "create", element: <SRTest /> },
+                { path: ":id", element: <SRTest /> },
+              ],
+            },
+            // { path: "service-request/:id", element: <ServiceRequestPage /> },
             { path: "work-orders", element: <WorkOrder /> },
             { path: "work-orders/:id", element: <WorkOrderPage /> },
             { path: "viewer", element: <ViewerCad /> },
             // { path: "Create-SR", element: <CreateSR /> },
-            {path: "Create-SR" , element:<SRTest />  },
             { path: "update-SR/:id", element: <SRUpdate /> },
             { path: "Test-SR/:id", element: <SRPagesTest /> },
             { path: "assets", element: <AssetsPage /> },
