@@ -22,10 +22,9 @@ const SRForm = ({
   assetValues = [],
   departmentValues = [],
   relatedWO,
+  mode
 }) => {
-  // ✅ استخدم القيمة من الـ context بدل mode
-  const { value } = useGlobal(); // value = "create" | "view" | "edit"
-  const isView = value === "view";
+const isView = mode === "view";
   const [selectOpen, setSelectOpen] = useState(false);
   const [currentField, setCurrentField] = useState(null);
   const [isAttachmentOpen, setIsAttachmentOpen] = useState(true);
@@ -43,15 +42,15 @@ const SRForm = ({
   };
 
   /* تحميل البيانات حسب الحالة */
-  useEffect(() => {
-    if ((value === "view" || value === "edit") && dataView?.length) {
-      setFormData(dataView[0]);
-    }
+useEffect(() => {
+  if ((mode === "view" || mode === "edit") && dataView?.length) {
+    setFormData(dataView[0]);
+  }
 
-    if (value === "create") {
-      setFormData({});
-    }
-  }, [value, dataView, setFormData]);
+  if (mode === "create") {
+    setFormData({});
+  }
+}, [mode, dataView]);
 
   /* تغيير القيم */
   const handleChange = (key, val) => {
@@ -133,7 +132,7 @@ const SRForm = ({
 
   // ===== Related WO Logic =====
   if (item.attribute === "recordkey") {
-    if (value === "create") {
+    if (mode  === "create") {
       valueField = "";
       isDisabled = true;
     } else {
@@ -355,7 +354,7 @@ const SRForm = ({
       </AnimatedSection>
 
       {/* Select Value Modal */}
-      {value === "create" ? (
+      {mode === "create" ? (
         <SelectValue
           open={selectOpen}
           field={currentField}

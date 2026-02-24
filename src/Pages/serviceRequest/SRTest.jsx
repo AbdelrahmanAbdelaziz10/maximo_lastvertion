@@ -25,14 +25,9 @@ const SRTest = () => {
   const { value, setValue } = useGlobal(); // value = "create" | "view" | "edit"
   const { id } = useParams();
   /* chick for know the type */
-  const mode = id
-    ? value === "edit"
-      ? "edit"
-      : "view"
-    : "create";
+  const mode = id === "create" ? "create" : value === "edit" ? "edit" : "view";
 
   console.log("Mode:", mode);
-
 
   const { srData, currentSrId: srId, setCurrentSrId } = useSRData();
   const navigate = useNavigate();
@@ -74,20 +69,20 @@ const SRTest = () => {
   }, []);
 
   // ✅ تحديد SR ID من context أو URL أو أول عنصر في srData
- useEffect(() => {
-  if (!srData?.length) return;
+  useEffect(() => {
+    if (!srData?.length) return;
 
-  const targetId = id || getTicketId(srData[0]);
-  if (!targetId) return;
+    const targetId = id || getTicketId(srData[0]);
+    if (!targetId) return;
 
-  // ⚠️ ما نعملش redirect لو id موجود أو id === "create"
-  if (!id || id === "create") return;
+    // ⚠️ ما نعملش redirect لو id موجود أو id === "create"
+    if (!id || id === "create") return;
 
-  if (srId !== targetId) {
-    setCurrentSrId(targetId);
-    navigate(`/service-request/${targetId}`, { replace: true });
-  }
-}, [id, srData]);
+    if (srId !== targetId) {
+      setCurrentSrId(targetId);
+      navigate(`/service-request/${targetId}`, { replace: true });
+    }
+  }, [id, srData]);
 
   // ✅ Fetch SR Details
   const SR_URL = srId
@@ -96,11 +91,11 @@ const SRTest = () => {
 
   const { data: SRDataRow } = useFetch(SR_URL);
 
-// fetch api for get related WO
-    const { data: relatedWO } = useFetch(
+  // fetch api for get related WO
+  const { data: relatedWO } = useFetch(
     `http://192.168.0.73:9080/maxrest/oslc/os/PORTALRELATEDRECORD?lean=1&oslc.select=*&oslc.where=relatedreckey="${srId}"&_lid=${userName}&_lpwd=${userPassword}`,
   );
-  console.log("wo:",relatedWO)
+  console.log("wo:", relatedWO);
 
   /* Assets */
   const { data: AssetData } = useFetch(
@@ -297,14 +292,14 @@ const SRTest = () => {
             }}
           >
             <Box sx={{ display: "flex", gap: 1 }}>
-             <Tooltip
-  title="Create New"
-  arrow
-  onClick={() => {
-    setValue("create");
-    navigate("/service-request/create");
-  }}
->
+              <Tooltip
+                title="Create New"
+                arrow
+                onClick={() => {
+                  setValue("create");
+                  navigate("/service-request/create");
+                }}
+              >
                 <motion.div
                   whileTap={{ scale: 0.9 }}
                   whileHover={{ scale: 1.05 }}
@@ -410,6 +405,7 @@ const SRTest = () => {
           assetValues={assetValues}
           departmentValues={departmentValues}
           relatedWO={relatedWO?.member?.[0]}
+          mode={mode}
         />
         {/* For show map and location */}
         {showReportsModal &&
