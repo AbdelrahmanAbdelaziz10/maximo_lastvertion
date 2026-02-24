@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ExtendNavBarTabs from "../../components/ServesDetailsCom/ExtendNavBarTabs";
 import { Box, Tooltip } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { IoMdCreate } from "react-icons/io";
 import { Save } from "lucide-react";
 import { SkipNext, SkipPrevious } from "@mui/icons-material";
@@ -15,20 +15,26 @@ import SRForm from "../../components/SrTest/SRForm";
 import { useFetch } from "../../hooks/getFetch";
 import { useAuth } from "../../components/Context/AuthContext";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
-import { useGlobal } from "./../../components/Context/GlobalContext";
+// import { useGlobal } from "./../../components/Context/GlobalContext";
 import Pops from "../../components/Common/Pops";
 import QRDisplay from "../../components/QRDisplay";
 import MapCom from "../../components/ServesDetailsCom/MapCom";
 import { Snackbar, Alert } from "@mui/material";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import AttachmentSection from "../../components/ServesDetailsCom/AttachmentUploader";
 
 const SRTest = () => {
-  const { value, setValue } = useGlobal(); // value = "create" | "view" | "edit"
+  // const { value, setValue } = useGlobal(); // value = "create" | "view" | "edit"
   const { id } = useParams();
   /* chick for know the type */
-  const mode = id === "create" ? "create" : value === "edit" ? "edit" : "view";
+  const location = useLocation();
+
+  // تحديد الوضع
+  const mode =
+    location.pathname.includes("/service-request/create") ? "create" : "view";
 
   console.log("Mode:", mode);
-
+console.log("Param id:", id);
   const { srData, currentSrId: srId, setCurrentSrId } = useSRData();
   const navigate = useNavigate();
   const { username } = useAuth();
@@ -36,6 +42,8 @@ const SRTest = () => {
   const [userPassword, setUserPassword] = useState("");
   const [activeTab, setActiveTab] = useState(0);
   const [showReportsModal, setShowReportsModal] = useState(false);
+    const [attachment, setAttachment] = useState(false);
+
   const [map, setMap] = useState(false);
   const [RowDataSr, setRowDataSr] = useState([]);
   /* mui alert stats */
@@ -222,7 +230,7 @@ const SRTest = () => {
       if (result?.ticketid) {
         setCurrentSrId(result.ticketid);
         navigate(`/service-request/${result.ticketid}`);
-        setValue("view");
+        // setValue("view");
       }
     } catch (error) {
       console.error("❌ Unexpected error:", error);
@@ -234,6 +242,16 @@ const SRTest = () => {
       });
     }
   };
+
+  const handleFileChange2 = (files) => {
+    // console.log("Files uploaded:", files);
+  };
+
+  useEffect(() => {
+  if (id === "create") {
+    setCurrentSrId(null);
+  }
+}, [id]);
 
   return (
     <div className="mb-2">
@@ -256,6 +274,21 @@ const SRTest = () => {
                 gap: 1,
               }}
             >
+              <Tooltip title="Add Attachment" arrow>
+                <motion.div
+                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ scale: 1.05 }}
+                  className="print-iconBox"
+                >
+                  <AttachFileIcon
+                    onClick={() => {
+                      setAttachment(true);
+                      // setMap(true);
+                    }}
+                    className="printer-icon"
+                  />
+                </motion.div>
+              </Tooltip>
               <Tooltip title="Show Location" arrow>
                 <motion.div
                   whileTap={{ scale: 0.9 }}
@@ -292,14 +325,13 @@ const SRTest = () => {
             }}
           >
             <Box sx={{ display: "flex", gap: 1 }}>
-              <Tooltip
-                title="Create New"
-                arrow
-                onClick={() => {
-                  setValue("create");
-                  navigate("/service-request/create");
-                }}
-              >
+             <Tooltip
+  title="Create New"
+  arrow
+  onClick={() => {
+    navigate("/service-request/create");
+  }}
+>
                 <motion.div
                   whileTap={{ scale: 0.9 }}
                   whileHover={{ scale: 1.05 }}
@@ -408,33 +440,41 @@ const SRTest = () => {
           mode={mode}
         />
         {/* For show map and location */}
-        {showReportsModal &&
-          (map ? (
-            <Pops
-              Title="QR code For Service Request"
-              component={<MapCom />}
-              id={srId}
-              show={showReportsModal}
-              onHide={() => {
-                setShowReportsModal(false);
-                setMap(false);
-              }}
-              reportType="SR"
-            />
-          ) : (
-            <Pops
-              Title="QR code For Service Request"
-              component={
-                <QRDisplay
-                  qrUrl={`${window.location.origin}/maximo/service-request/${srId}`}
-                />
-              }
-              id={srId}
-              show={showReportsModal}
-              onHide={() => setShowReportsModal(false)}
-              reportType="SR"
-            />
-          ))}
+       {/* Map or QR Modal */}
+{showReportsModal && !attachment && (
+  <Pops
+    Title="QR code For Service Request"
+    component={
+      map ? <MapCom /> : <QRDisplay qrUrl={`${window.location.origin}/maximo/service-request/${srId}`} />
+    }
+    id={srId}
+    show={showReportsModal}
+    onHide={() => {
+      setShowReportsModal(false);
+      setMap(false);
+    }}
+    reportType="SR"
+  />
+)}
+
+{/* Attachment Modal */}
+{attachment && (
+  <Pops
+    Title="Attachments"
+    component={
+      <AttachmentSection
+        handleFileChange2={handleFileChange2}
+        RowDataSr={RowDataSr}
+        document={document}
+      />
+    }
+    id={srId}
+    show={attachment}
+    onHide={() => setAttachment(false)}
+    reportType="SR"
+  />
+)}
+
       </Box>
       {/* Show sweet alert  */}
 

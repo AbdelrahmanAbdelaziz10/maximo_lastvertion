@@ -90,7 +90,18 @@ export default function Navbar() {
               </MenuItem>
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            <MenuItem
+  sx={{
+    color: "red",
+    "&:hover": {
+      backgroundColor: "#ff000049",
+      color: "red", // اختياري لتغيير النص عند hover
+    },
+  }}
+  onClick={handleLogout}
+>
+  Logout
+</MenuItem>
             </Menu>
           </Box>
         </Toolbar>

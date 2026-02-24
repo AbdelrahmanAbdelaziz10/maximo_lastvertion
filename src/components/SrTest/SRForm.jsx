@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import AnimatedSection from "../ServesDetailsCom/AnimatedSection";
 import AttachmentSection from "../ServesDetailsCom/AttachmentUploader";
-import { useGlobal } from "../Context/GlobalContext";
 import { SearchIcon } from "lucide-react";
 import SelectValue from "../Create SR/SelectValue";
 
@@ -22,9 +21,9 @@ const SRForm = ({
   assetValues = [],
   departmentValues = [],
   relatedWO,
-  mode
+  mode,
 }) => {
-const isView = mode === "view";
+  const isView = mode === "view";
   const [selectOpen, setSelectOpen] = useState(false);
   const [currentField, setCurrentField] = useState(null);
   const [isAttachmentOpen, setIsAttachmentOpen] = useState(true);
@@ -42,15 +41,15 @@ const isView = mode === "view";
   };
 
   /* تحميل البيانات حسب الحالة */
-useEffect(() => {
-  if ((mode === "view" || mode === "edit") && dataView?.length) {
-    setFormData(dataView[0]);
-  }
+  useEffect(() => {
+    if ((mode === "view" || mode === "edit") && dataView?.length) {
+      setFormData(dataView[0]);
+    }
 
-  if (mode === "create") {
-    setFormData({});
-  }
-}, [mode, dataView]);
+    if (mode === "create") {
+      setFormData({});
+    }
+  }, [mode, dataView]);
 
   /* تغيير القيم */
   const handleChange = (key, val) => {
@@ -70,24 +69,24 @@ useEffect(() => {
         { label: "Status:", attribute: "status" },
       ],
 
-      ServiceRequest: [
+      ServiceRequestFields: [
         {
           label: "Details:",
           attribute: "description_longdescription",
           type: "textbox",
         },
         { label: "Assets:", attribute: "assetnum", icon: "search" },
-        { label: "Assets Description:", attribute: "assetdesc" },
-        { label: "Location:", attribute: "location" },
-        { label: "Location Description:", attribute: "locationdesc" },
         { label: "Assets Site:", attribute: "assetsiteid" },
+        { label: "Location:", attribute: "location" },
         { label: "Classification:", attribute: "classstructureid" },
         { label: "Class Description:", attribute: "classdesc" },
         { label: "Department:", attribute: "exedept", icon: "search" },
         { label: "Work Type:", attribute: "worktype" },
         { label: "Reported Priority:", attribute: "reportedpriority" },
-        { label: "Internal Priority:", attribute: "internalpriority" },
+        { label: "Internal Priority:", attribute: "internalpriority" },        
+        { label: "Assets Description:", attribute: "assetdesc" },
         { label: "Service Group:", attribute: "commoditygroup" },
+        { label: "Location Description:", attribute: "locationdesc" },
         { label: "Service:", attribute: "commodity" },
         { label: "Vendor:", attribute: "vendor" },
         { label: "Site:", attribute: "siteid" },
@@ -95,23 +94,28 @@ useEffect(() => {
 
       UserInformation: [
         { label: "Requested By:", attribute: "reportedby" },
-        { label: "Name:", attribute: "displayname" },
-        { label: "Phone:", attribute: "phone" },
-        { label: "E-mail:", attribute: "email" },
+        // { label: "Name:", attribute: "displayname" },
+        // { label: "Phone:", attribute: "phone" },
+        // { label: "E-mail:", attribute: "email" },
         { label: "Reported By:", attribute: "affectedperson" },
-        { label: "Name:", attribute: "displayname" },
-        { label: "Phone:", attribute: "phone" },
-        { label: "E-mail:", attribute: "email" },
+        // { label: "Name:", attribute: "displayname" },
+        // { label: "Phone:", attribute: "phone" },
+        // { label: "E-mail:", attribute: "email" },
       ],
 
       dates: [
         { label: "Reported Date:", attribute: "reportdate" },
         { label: "Requested Date:", attribute: "targstartdate" },
-        { label: "Target Start:", attribute: "targstartdate" },
-        { label: "Target Finish:", attribute: "targcompdate" },
+        // { label: "Target Start:", attribute: "targstartdate" },
+        // { label: "Target Finish:", attribute: "targcompdate" },
       ],
     },
   ];
+
+  const ServiceRequestFields = StaticData[0].ServiceRequestFields;
+  const middleIndex = Math.ceil(ServiceRequestFields.length / 2);
+  const leftFields = ServiceRequestFields.slice(0, middleIndex);
+  const rightFields = ServiceRequestFields.slice(middleIndex);
 
   return (
     <>
@@ -126,62 +130,60 @@ useEffect(() => {
       >
         <CardContent>
           <Row className="justify-content-start">
-          {StaticData[0].header.map((item, idx) => {
-  let valueField = formData?.[item.attribute] || "";
-  let isDisabled = false;
+            {StaticData[0].header.map((item, idx) => {
+              let valueField = formData?.[item.attribute] || "";
+              let isDisabled = false;
 
-  // ===== Related WO Logic =====
-  if (item.attribute === "recordkey") {
-    if (mode  === "create") {
-      valueField = "";
-      isDisabled = true;
-    } else {
-      valueField = relatedWO?.recordkey || "";
-    }
-  }
+              // ===== Related WO Logic =====
+              if (item.attribute === "recordkey") {
+                if (mode === "create") {
+                  valueField = "";
+                  isDisabled = true;
+                } else {
+                  valueField = relatedWO?.recordkey || "";
+                }
+              }
 
-  // ===== Service Request & Status disabled always =====
-  if (
-    item.attribute === "ticketid" ||
-    item.attribute === "status"
-  ) {
-    isDisabled = true;
-  }
+              // ===== Service Request & Status disabled always =====
+              if (
+                item.attribute === "ticketid" ||
+                item.attribute === "status"
+              ) {
+                isDisabled = true;
+              }
 
-  return (
-    <Col xs={12} md={3} key={idx}>
-      <Box display="flex" alignItems="center">
-        <Typography className="input-text">
-          {item.label}
-        </Typography>
-        <Input
-          fullWidth
-          className="input-general"
-          value={valueField}
-          disableUnderline
-          disabled={isDisabled}
-          onChange={(e) =>
-            handleChange(item.attribute, e.target.value)
-          }
-          sx={{ color: "black" }}
-        />
-      </Box>
-    </Col>
-  );
-})}
+              return (
+                <Col xs={12} md={3} key={idx}>
+                  <Box display="flex" alignItems="center">
+                    <Typography className="input-text">{item.label}</Typography>
+                    <Input
+                      fullWidth
+                      className="input-general"
+                      value={valueField}
+                      disableUnderline
+                      disabled={isDisabled}
+                      onChange={(e) =>
+                        handleChange(item.attribute, e.target.value)
+                      }
+                      sx={{ color: "black" }}
+                    />
+                  </Box>
+                </Col>
+              );
+            })}
           </Row>
         </CardContent>
       </Card>
 
       {/* ===== Service Request Details ===== */}
-      <Row>
-        <Col md={6}>
-          <AnimatedSection
-            title="Service Request Details"
-            isOpen={serviceRequestDetails}
-            onToggle={toggleSRD}
-          >
-            {StaticData[0].ServiceRequest.map((item, idx) => {
+      <AnimatedSection
+        title="Service Request Details"
+        isOpen={serviceRequestDetails}
+        onToggle={toggleSRD}
+      >
+        <Row>
+          <Col md={6}>
+            {leftFields.map((item, idx) => {
               const valueField = formData?.[item.attribute] || "";
               return (
                 <Box
@@ -236,8 +238,68 @@ useEffect(() => {
                 </Box>
               );
             })}
-          </AnimatedSection>
-        </Col>
+          </Col>
+          <Col md={6}>
+            {rightFields.map((item, idx) => {
+              const valueField = formData?.[item.attribute] || "";
+              return (
+                <Box
+                  key={idx}
+                  sx={{
+                    display: "flex",
+                    alignItems:
+                      item.type === "textbox" ? "flex-start" : "center",
+                    mb: 2,
+                  }}
+                >
+                  <Typography className="input-text text-width">
+                    {item.label}
+                  </Typography>
+                  <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+                    {" "}
+                    {item.type === "textbox" ? (
+                      <TextareaAutosize
+                        className="textarea-general"
+                        minRows={3}
+                        style={{ width: "100%" }}
+                        value={valueField}
+                        readOnly={isView}
+                        onChange={(e) =>
+                          handleChange(item.attribute, e.target.value)
+                        }
+                      />
+                    ) : (
+                      <Input
+                        className="input-general"
+                        fullWidth
+                        value={valueField}
+                        disableUnderline
+                        readOnly={isView}
+                        onChange={(e) =>
+                          handleChange(item.attribute, e.target.value)
+                        }
+                      />
+                    )}
+                    {item.icon === "search" && !isView && (
+                      <IconButton
+                        size="small"
+                        onClick={() => {
+                          setCurrentField(item);
+                          setSelectOpen(true);
+                        }}
+                      >
+                        <SearchIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                  </Box>
+                </Box>
+              );
+            })}
+          </Col>
+        </Row>
+      </AnimatedSection>
+
+      <Row>
         <Col md={6}>
           <AnimatedSection
             title="User Information"
@@ -289,6 +351,9 @@ useEffect(() => {
             })}
           </AnimatedSection>
 
+        </Col>
+                <Col md={6}>
+                
           <AnimatedSection
             title="Dates"
             isOpen={isDatesOpen}
@@ -338,7 +403,7 @@ useEffect(() => {
               );
             })}
           </AnimatedSection>
-        </Col>
+</Col>
       </Row>
 
       <AnimatedSection
