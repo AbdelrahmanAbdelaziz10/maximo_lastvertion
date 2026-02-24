@@ -21,6 +21,7 @@ const SRForm = ({
   setFormData = () => {},
   assetValues = [],
   departmentValues = [],
+  relatedWO,
 }) => {
   // ✅ استخدم القيمة من الـ context بدل mode
   const { value } = useGlobal(); // value = "create" | "view" | "edit"
@@ -66,6 +67,7 @@ const SRForm = ({
       header: [
         { label: "Service Request:", attribute: "ticketid" },
         { label: "Summary:", attribute: "description" },
+        { label: "Related WO:", attribute: "recordkey" },
         { label: "Status:", attribute: "status" },
       ],
 
@@ -124,30 +126,50 @@ const SRForm = ({
         }}
       >
         <CardContent>
-          <Row className=" justify-content-start">
-            {StaticData[0].header.map((item, idx) => (
-              <Col xs={12} md={item.label === "Summary" ? 6 : 3} key={idx}>
-                <Box display="flex" alignItems="center">
-                  <Typography className="input-text text-width">
-                    {item.label}
-                  </Typography>
-                  <Input
-                    fullWidth
-                    className="input-general"
-                    value={formData?.[item.attribute] || ""}
-                    disabled={
-                      item.attribute === "ticketid" ||
-                      item.attribute === "status" ||
-                      isView
-                    }
-                    disableUnderline
-                    onChange={(e) =>
-                      handleChange(item.attribute, e.target.value)
-                    }
-                  />
-                </Box>
-              </Col>
-            ))}
+          <Row className="justify-content-start">
+          {StaticData[0].header.map((item, idx) => {
+  let valueField = formData?.[item.attribute] || "";
+  let isDisabled = false;
+
+  // ===== Related WO Logic =====
+  if (item.attribute === "recordkey") {
+    if (value === "create") {
+      valueField = "";
+      isDisabled = true;
+    } else {
+      valueField = relatedWO?.recordkey || "";
+    }
+  }
+
+  // ===== Service Request & Status disabled always =====
+  if (
+    item.attribute === "ticketid" ||
+    item.attribute === "status"
+  ) {
+    isDisabled = true;
+  }
+
+  return (
+    <Col xs={12} md={3} key={idx}>
+      <Box display="flex" alignItems="center">
+        <Typography className="input-text">
+          {item.label}
+        </Typography>
+        <Input
+          fullWidth
+          className="input-general"
+          value={valueField}
+          disableUnderline
+          disabled={isDisabled}
+          onChange={(e) =>
+            handleChange(item.attribute, e.target.value)
+          }
+          sx={{ color: "black" }}
+        />
+      </Box>
+    </Col>
+  );
+})}
           </Row>
         </CardContent>
       </Card>
@@ -332,37 +354,36 @@ const SRForm = ({
         />
       </AnimatedSection>
 
-
-        {/* Select Value Modal */}
-        {value ==="create" ? (      <SelectValue
-  open={selectOpen}
-  field={currentField}
-  value={
-    currentField?.attribute === "assetnum"
-      ? assetValues
-      : departmentValues
-  }
-  tabs={
-    currentField?.attribute === "assetnum"
-      ? [
-          { label: "Asset", key: "assetnum" },
-          { label: "Description", key: "description" },
-          { label: "Location", key: "location" },
-          { label: "Site", key: "siteid" },
-        ]
-      : [
-          { label: "Value", key: "value" },
-          { label: "Description", key: "description" },
-        ]
-  }
-  onClose={() => setSelectOpen(false)}
-  onSelectValue={(val) => {
-    handleChange(currentField.attribute, val);
-    setSelectOpen(false);
-  }}
-/>):(null)}
-
-
+      {/* Select Value Modal */}
+      {value === "create" ? (
+        <SelectValue
+          open={selectOpen}
+          field={currentField}
+          value={
+            currentField?.attribute === "assetnum"
+              ? assetValues
+              : departmentValues
+          }
+          tabs={
+            currentField?.attribute === "assetnum"
+              ? [
+                  { label: "Asset", key: "assetnum" },
+                  { label: "Description", key: "description" },
+                  { label: "Location", key: "location" },
+                  { label: "Site", key: "siteid" },
+                ]
+              : [
+                  { label: "Value", key: "value" },
+                  { label: "Description", key: "description" },
+                ]
+          }
+          onClose={() => setSelectOpen(false)}
+          onSelectValue={(val) => {
+            handleChange(currentField.attribute, val);
+            setSelectOpen(false);
+          }}
+        />
+      ) : null}
     </>
   );
 };

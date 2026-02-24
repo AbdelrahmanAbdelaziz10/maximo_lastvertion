@@ -29,8 +29,8 @@ const filterKeys = [
 ];
 
 const TableData = ({ ColorTable, routePage }) => {
-      const { value , setValue } = useGlobal();
-  
+  const { value, setValue } = useGlobal();
+
   const { srData, tableTitle } = useSRData();
   const [page, setPage] = React.useState(0);
   const [showFilters, setShowFilters] = React.useState(false);
@@ -112,8 +112,15 @@ const TableData = ({ ColorTable, routePage }) => {
                       },
                     }}
                   >
-                    <TableCell className="table-column" onClick={() =>{ setValue("view"); console.log("value:",value);
-              }}>
+                    <TableCell
+                      className="table-column"
+                      onClick={() => {
+                        // ✅ تخزين الـ ticketid في localStorage
+                        localStorage.setItem("srId", item.ticketid);
+                        setValue("view");
+                        console.log("value:", value);
+                      }}
+                    >
                       <Link
                         to={`/${routePage}/${item.ticketid}`}
                         // to={`/${routePage}/details`}
@@ -129,12 +136,18 @@ const TableData = ({ ColorTable, routePage }) => {
                     <TableCell className="table-column">
                       {item.description}
                     </TableCell>
-                    <TableCell className="table-column">{item.exedept}</TableCell>
-                    <TableCell className="table-column">{item.worktype}</TableCell>
+                    <TableCell className="table-column">
+                      {item.exedept}
+                    </TableCell>
+                    <TableCell className="table-column">
+                      {item.worktype}
+                    </TableCell>
                     <TableCell className="table-column">
                       {item.reportedpriority}
                     </TableCell>
-                    <TableCell className="table-column">{item.reportedby}</TableCell>
+                    <TableCell className="table-column">
+                      {item.reportedby}
+                    </TableCell>
                     <TableCell className="table-column">
                       <span
                         className={`status-badge ${
@@ -174,5 +187,3 @@ const TableData = ({ ColorTable, routePage }) => {
 };
 
 export default TableData;
-
-

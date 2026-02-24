@@ -50,7 +50,7 @@ const SRTest = () => {
     severity: "success", // success | error
   });
 
-  const tabs = ["Service Request", "Related Records", "Log"];
+  const tabs = ["Service Request"];
   const getTicketId = (item) =>
     item?.ticketid || item?.sr?.[0]?.ticketid || null;
 
@@ -96,6 +96,12 @@ const SRTest = () => {
 
   const { data: SRDataRow } = useFetch(SR_URL);
 
+// fetch api for get related WO
+    const { data: relatedWO } = useFetch(
+    `http://192.168.0.73:9080/maxrest/oslc/os/PORTALRELATEDRECORD?lean=1&oslc.select=*&oslc.where=relatedreckey="${srId}"&_lid=${userName}&_lpwd=${userPassword}`,
+  );
+  console.log("wo:",relatedWO)
+
   /* Assets */
   const { data: AssetData } = useFetch(
     `http://192.168.0.73:9080/maximo/oslc/os/PORTALASSET?lean=1&oslc.select=*&_lid=${userName}&_lpwd=${userPassword}`,
@@ -127,7 +133,7 @@ const SRTest = () => {
   useEffect(() => {
     if (SRDataRow?.member?.length) {
       setRowDataSr(SRDataRow.member);
-      console.log("RowDataSr:", SRDataRow.member);
+      // console.log("RowDataSr:", SRDataRow.member);
     }
   }, [SRDataRow]);
 
@@ -245,7 +251,7 @@ const SRTest = () => {
 
       <Box sx={{ mt: 1, minHeight: 300 }}>
         {/* أيقونات الإجراءات */}
-        {value === "create" ? (
+        {mode === "create" ? (
           <Box sx={{ display: "flex", justifyContent: "end", mb: 2, gap: 1 }}>
             <Box
               sx={{
@@ -403,6 +409,7 @@ const SRTest = () => {
           setFormData={setFormData}
           assetValues={assetValues}
           departmentValues={departmentValues}
+          relatedWO={relatedWO?.member?.[0]}
         />
         {/* For show map and location */}
         {showReportsModal &&
