@@ -208,6 +208,12 @@ useEffect(() => {
   ];
 
 
+  useEffect(() => {
+  if (allSRData.length > 0) {
+    localStorage.setItem("SR_LIST", JSON.stringify(allSRData));
+  }
+}, [allSRData]);
+
     // console.log("filter Data:",filter)
 
   // === UI ===
